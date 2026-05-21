@@ -7,7 +7,6 @@ import {
   Smartphone,
   Brain,
   Cloud,
-  Star,
   ChevronRight,
   Sparkles,
   Zap,
@@ -163,23 +162,9 @@ export default function HomePage() {
             description="We leverage cutting-edge technologies and frameworks to build robust, scalable solutions."
           />
           <div className="flex flex-wrap justify-center gap-4">
-            {['React', 'Node.js', 'MongoDB', 'AWS', 'Flutter', 'TypeScript'].map((tech, i) => {
-              const { ref, isVisible } = useScrollAnimation();
-              return (
-                <div
-                  key={tech}
-                  ref={ref}
-                  className={`group px-8 py-5 rounded-2xl glass-card border border-edge hover:border-primary/30 hover:bg-primary/5 hover:scale-105 transition-all duration-500 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                  }`}
-                  style={staggerStyle(i, 100)}
-                >
-                  <span className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                    {tech}
-                  </span>
-                </div>
-              );
-            })}
+            {['React', 'Node.js', 'MongoDB', 'AWS', 'Flutter', 'TypeScript'].map((tech, i) => (
+              <TechCard key={tech} tech={tech} index={i} />
+            ))}
           </div>
         </div>
       </section>
@@ -220,3 +205,21 @@ export default function HomePage() {
     </>
   );
 }
+
+function TechCard({ tech, index }: { tech: string; index: number }) {
+  const { ref, isVisible } = useScrollAnimation();
+  return (
+    <div
+      ref={ref}
+      className={`group px-8 py-5 rounded-2xl glass-card border border-edge hover:border-primary/30 hover:bg-primary/5 hover:scale-105 transition-all duration-500 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+      }`}
+      style={staggerStyle(index, 100)}
+    >
+      <span className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+        {tech}
+      </span>
+    </div>
+  );
+}
+

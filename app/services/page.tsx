@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Code2, Smartphone, Building2, Cloud, Globe, Wrench, Star, CheckCircle } from 'lucide-react';
+import { ArrowRight, Code2, Smartphone, Building2, Cloud, Globe, Wrench, CheckCircle } from 'lucide-react';
 
 const services = [
   {

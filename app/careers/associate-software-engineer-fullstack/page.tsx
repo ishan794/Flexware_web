@@ -1,17 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Mail, MapPin, Clock } from 'lucide-react';
+import { ArrowLeft, Mail, MapPin, Clock } from 'lucide-react';
 
 export default function AssociateSEPage() {
   return (
     <div className="pt-12 pb-24">
       <div className="max-w-4xl mx-auto px-6">
-        <Link href="/careers" className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground mb-8 transition-colors">
+        <Link href="/careers" className="inline-flex items-center gap-2 text-sm text-black hover:text-blue-500 mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Careers
         </Link>
 
-        <div className="flex flex-wrap items-center gap-3 text-sm text-muted mb-4">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-black mb-4">
           <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Onsite</span>
           <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Full-time</span>
           <span className="px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-semibold">Engineering</span>
@@ -21,11 +21,11 @@ export default function AssociateSEPage() {
 
         <section className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">About the Role</h2>
-          <p className="text-muted leading-relaxed mb-4">
+          <p className="text-blackleading-relaxed mb-4">
             Start your career with impact as an Associate Software Engineer at Flxware. We are looking for promising 
             developers who are eager to learn and ready to contribute to real-world projects.
           </p>
-          <p className="text-muted leading-relaxed">
+          <p className="text-black leading-relaxed">
             As an Associate Engineer, you will work closely with senior mentors and cross-functional teams to build and 
             maintain software solutions. You will participate in code reviews, help debug complex issues, and gradually 
             take ownership of features. This position offers a unique opportunity to refine your skills while working 
@@ -35,7 +35,7 @@ export default function AssociateSEPage() {
 
         <section className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">Requirements</h2>
-          <ul className="space-y-3 text-muted">
+          <ul className="space-y-3 text-black">
             {[
               'BSc degree in Computer Science, Software Engineering, or related field.',
               'Completed a recognized software engineering internship or have relevant project experience.',
@@ -56,12 +56,12 @@ export default function AssociateSEPage() {
 
         <section className="glass-card rounded-2xl p-8 mb-12">
           <h2 className="text-2xl font-bold mb-4">How to Apply</h2>
-          <p className="text-muted mb-2">Send your resume and cover letter to our careers email.</p>
-          <p className="text-sm text-muted mb-6">
+          <p className="text-black mb-2">Send your resume and cover letter to our careers email.</p>
+          <p className="text-sm text-black mb-6">
             Subject as: <span className="text-primary font-medium">Associate Software Engineer (Fullstack) - {"<"}First Name{">"} {"<"}Last Name{">"}</span>
           </p>
           <a href="mailto:careers@flxwaretech.com" className="btn btn-primary group">
-            <Mail className="w-4 h-4" /> careers@flxwaretech.com
+            <Mail className="w-8 h-4" /> careers@flxwaretech.com<br/>
           </a>
         </section>
 

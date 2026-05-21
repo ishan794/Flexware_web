@@ -1,5 +1,3 @@
-let currentUtterance: SpeechSynthesisUtterance | null = null;
-
 export function speak(text: string, onEnd?: () => void) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
@@ -16,10 +14,9 @@ export function speak(text: string, onEnd?: () => void) {
   ) ?? voices.find((v) => v.lang.startsWith('en'));
   if (preferred) utterance.voice = preferred;
 
-  utterance.onend = () => { currentUtterance = null; onEnd?.(); };
-  utterance.onerror = () => { currentUtterance = null; onEnd?.(); };
+  utterance.onend = () => { onEnd?.(); };
+  utterance.onerror = () => { onEnd?.(); };
 
-  currentUtterance = utterance;
   window.speechSynthesis.speak(utterance);
 }
 
@@ -27,5 +24,4 @@ export function stopSpeaking() {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     window.speechSynthesis.cancel();
   }
-  currentUtterance = null;
 }

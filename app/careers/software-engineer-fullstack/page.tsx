@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Mail, MapPin, Clock } from 'lucide-react';
+import { ArrowLeft, Mail, MapPin, Clock } from 'lucide-react';
 
 export default function SEPage() {
   return (

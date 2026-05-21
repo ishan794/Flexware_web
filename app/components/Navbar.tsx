@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
-import { useTheme } from '@/app/lib/theme-context';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -16,7 +15,6 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const { theme, toggle } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -29,8 +27,13 @@ export default function Navbar() {
 
   // Close mobile menu on route change
   useEffect(() => {
-    setIsMobileOpen(false);
-  }, [pathname]);
+    if (isMobileOpen) {
+      const timer = setTimeout(() => {
+        setIsMobileOpen(false);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, isMobileOpen]);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -43,7 +46,7 @@ export default function Navbar() {
       id="main-navbar"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'glass-strong shadow-lg shadow-black/20'
+          ? 'glass-strong shadow-lg shadow-slate-950/20'
           : 'bg-transparent'
       }`}
     >
@@ -58,14 +61,6 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1">
-          {/* Theme Toggle */}
-          <button
-            onClick={toggle}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors mr-2"
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -108,7 +103,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-slate-950/60 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
           isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsMobileOpen(false)}
@@ -138,18 +133,11 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <div className="mt-4 pt-4 border-t border-edge flex items-center justify-between">
-            <button
-              onClick={() => { toggle(); setIsMobileOpen(false); }}
-              className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-muted hover:text-foreground rounded-xl hover:bg-edge transition-all"
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-            </button>
+          <div className="mt-4 pt-4 border-t border-edge flex items-center justify-center">
             <Link
               href="/contact"
               onClick={() => setIsMobileOpen(false)}
-              className="btn btn-primary btn-sm"
+              className="btn btn-primary btn-sm w-full"
             >
               Get Started
               <ArrowRight className="w-4 h-4" />

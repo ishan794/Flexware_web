@@ -1,5 +1,3 @@
-'use client';
-
 const stats = [
   { id: 1, name: 'Projects Delivered', value: '150+' },
   { id: 2, name: 'Client Satisfaction', value: '98%' },
@@ -10,6 +8,7 @@ const stats = [
 export default function StatsSection() {
   return (
     <section className="relative isolate overflow-hidden py-24 sm:py-32">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         alt=""
         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2850&q=80&blend=111827&blend-mode=multiply&sat=-100&exp=15"

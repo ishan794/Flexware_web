@@ -1,14 +1,5 @@
 'use client';
 
-const featuredTestimonial = {
-  body: 'Integer id nunc sit semper purus. Bibendum at lacus ut arcu blandit montes vitae auctor libero. Hac condimentum dignissim nibh vulputate ut nunc. Amet nibh orci mi venenatis blandit vel et proin.',
-  author: {
-    name: 'Brenna Goyette',
-    handle: 'brennagoyette',
-    imageUrl: 'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=1024&h=1024&q=80',
-  },
-};
-
 const testimonials = [
   [
     {
@@ -81,6 +72,7 @@ export default function TestimonialsSection() {
                 <p>{`"${t.body}"`}</p>
               </blockquote>
               <figcaption className="mt-6 flex items-center gap-x-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img alt="" src={t.author.imageUrl} className="size-10 rounded-full" />
                 <div>
                   <div className="font-semibold text-foreground">{t.author.name}</div>

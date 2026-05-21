@@ -1,4 +1,4 @@
-import { detectIntent, intents } from '../prompts';
+import { detectIntent } from '../prompts';
 import { persuasion } from '../prompts/persuasion';
 import type { CollectedData, ConversationState, EngineResponse } from '../prompts/types';
 
@@ -79,7 +79,7 @@ function pickRandom<T>(arr: T[]): T {
 
 function pickPersuasion(tags: string[]): string {
   for (const tag of tags) {
-    const pool = (persuasion as any)[tag];
+    const pool = (persuasion as Record<string, string[]>)[tag];
     if (pool && pool.length > 0) return pickRandom(pool);
   }
   return '';

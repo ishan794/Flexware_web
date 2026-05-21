@@ -52,6 +52,7 @@ export default function TeamSection() {
         >
           {people.map((person) => (
             <li key={person.name} className="rounded-2xl bg-surface-lighter px-8 py-10 ring-1 ring-edge">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 alt=""
                 src={person.imageUrl}

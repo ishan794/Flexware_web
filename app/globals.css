@@ -204,79 +204,7 @@
   100% { transform: scale(2.4); opacity: 0; }
 }
 
-/* ============================================
-   LIGHT MODE OVERRIDES
-   ============================================ */
 
-[data-theme="light"] {
-  /* Light Blue (30%) */
-  --color-primary: #3b82f6;
-  --color-primary-light: #60a5fa;
-  --color-primary-dark: #2563eb;
-  --color-secondary: #6366f1;
-  --color-secondary-light: #818cf8;
-  --color-secondary-dark: #4f46e5;
-  --color-accent: #0ea5e9;
-  --color-accent-light: #38bdf8;
-  --color-rose: #e11d48;
-  --color-rose-light: #fb7185;
-  --color-emerald: #16a34a;
-  --color-amber: #d97706;
-
-  /* White (50%) */
-  --color-background: #ffffff;
-  --color-surface: #ffffff;
-  --color-surface-light: #f8fafc;
-  --color-surface-lighter: #f1f5f9;
-
-  /* Dark Blue (20%) */
-  --color-foreground: #0f172a;
-  --color-muted: #1e293b;
-  --color-subtle: #334155;
-
-  --color-edge: rgba(15, 23, 42, 0.08);
-  --color-edge-hover: rgba(15, 23, 42, 0.12);
-  --color-edge-active: rgba(15, 23, 42, 0.2);
-
-  --shadow-glow-sm: 0 0 15px rgba(59, 130, 246, 0.12);
-  --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.18);
-  --shadow-glow-lg: 0 0 60px rgba(59, 130, 246, 0.22);
-  --shadow-elevated: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-  --shadow-elevated-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
-}
-
-[data-theme="light"] .glass-strong {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(59, 130, 246, 0.1);
-}
-
-[data-theme="light"] .glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(59, 130, 246, 0.08);
-}
-
-[data-theme="light"] .glass-card:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(59, 130, 246, 0.2);
-}
-
-[data-theme="light"] .bg-grid {
-  background-image:
-    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
-}
-
-[data-theme="light"] ::-webkit-scrollbar-track {
-  background: #f8fafc;
-}
-
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.2);
-}
-
-[data-theme="light"] * {
-  scrollbar-color: rgba(59, 130, 246, 0.2) #f8fafc;
-}
 
 /* ============================================
    BASE STYLES
@@ -379,12 +307,7 @@ body {
   background-clip: text;
 }
 
-[data-theme="light"] .gradient-text {
-  background: linear-gradient(135deg, #1d4ed8, #2563eb, #0891b2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+
 
 .gradient-text-blue {
   background: linear-gradient(135deg, #38bdf8, #22d3ee);
