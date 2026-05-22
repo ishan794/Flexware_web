@@ -48,7 +48,7 @@ export default function Navbar() {
       id="main-navbar"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'glass-strong shadow-lg shadow-slate-950/20'
+          ? 'glass-strong shadow-elevated'
           : 'bg-transparent'
       }`}
     >
@@ -121,7 +121,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-slate-950/60 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-background/80 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
           isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsMobileOpen(false)}
