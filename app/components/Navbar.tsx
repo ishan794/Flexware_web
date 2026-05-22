@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../lib/theme-context';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -80,7 +82,14 @@ export default function Navbar() {
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-4">
+          <button
+            onClick={toggle}
+            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
           <Link
             href="/contact"
             className="btn btn-primary btn-sm group"
@@ -90,15 +99,24 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          id="mobile-menu-toggle"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="relative z-10 md:hidden p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-          aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile Controls */}
+        <div className="flex md:hidden items-center gap-2 relative z-10">
+          <button
+            onClick={toggle}
+            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+          <button
+            id="mobile-menu-toggle"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
+            aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu Overlay */}

@@ -222,4 +222,3 @@ function TechCard({ tech, index }: { tech: string; index: number }) {
     </div>
   );
 }
-
