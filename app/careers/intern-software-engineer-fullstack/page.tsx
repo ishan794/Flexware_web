@@ -11,7 +11,7 @@ export default function InternSEPage() {
           <ArrowLeft className="w-4 h-4" /> Back to Careers
         </Link>
 
-        <div className="flex flex-wrap items-center gap-3 text-sm text-black mb-4">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted mb-4">
           <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Onsite</span>
           <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Internship</span>
           <span className="px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-semibold">Engineering</span>
@@ -21,11 +21,11 @@ export default function InternSEPage() {
 
         <section className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">About the Role</h2>
-          <p className="text-black leading-relaxed mb-4">
+          <p className="text-muted leading-relaxed mb-4">
             Kickstart your journey in the tech industry with Flxware&apos;s Software Engineering Internship. We provide 
             an immersive learning environment where you will gain hands-on experience in full-stack development.
           </p>
-          <p className="text-black leading-relaxed">
+          <p className="text-muted leading-relaxed">
             Under the guidance of experienced engineers, you will assist in coding, testing, and debugging applications. 
             You will be exposed to industry-standard practices and tools, giving you a solid foundation for your future 
             career. This internship is designed for students who are passionate about technology and ready to apply 
@@ -35,7 +35,7 @@ export default function InternSEPage() {
 
         <section className="glass-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold mb-4">Requirements</h2>
-          <ul className="space-y-3 text-black">
+          <ul className="space-y-3 text-muted">
             {[
               'Current Undergraduate pursuing a degree in Computer Science, Software Engineering, or related field.',
               'Foundational knowledge of programming languages such as Java, JavaScript, or PHP.',
@@ -53,8 +53,8 @@ export default function InternSEPage() {
 
         <section className="glass-card rounded-2xl p-8 mb-12">
           <h2 className="text-2xl font-bold mb-4">How to Apply</h2>
-          <p className="text-black mb-2">Send your resume and cover letter to our careers email.</p>
-          <p className="text-sm text-black mb-6">
+          <p className="text-muted mb-2">Send your resume and cover letter to our careers email.</p>
+          <p className="text-sm text-muted mb-6">
             Subject as: <span className="text-primary font-medium">Intern Software Engineer (Fullstack) - {"<"}First Name{">"} {"<"}Last Name{">"}</span>
           </p>
           <a href="mailto:careers@flxwaretech.com" className="btn btn-primary group">
@@ -71,3 +71,4 @@ export default function InternSEPage() {
     </div>
   );
 }
+

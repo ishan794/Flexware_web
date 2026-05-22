@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
   return (
@@ -42,15 +43,19 @@ export default function HeroSection() {
               Flxware crafts cutting-edge web applications, mobile solutions, and AI-powered systems
               that transform businesses and delight users.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/contact"
-                className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-primary-light transition-colors"
+                className="btn btn-primary btn-lg group animate-pulse-soft"
               >
                 Get started
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="/services" className="text-sm/6 font-semibold text-foreground hover:text-primary-light transition-colors">
-                Learn more <span aria-hidden="true">&rarr;</span>
+              <Link 
+                href="/services" 
+                className="btn btn-outline btn-lg"
+              >
+                Learn more
               </Link>
             </div>
           </div>
