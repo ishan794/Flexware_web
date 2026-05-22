@@ -113,8 +113,8 @@ export default function ContactSection() {
                   <PhoneIcon aria-hidden="true" className="h-7 w-6 text-primary" />
                 </dt>
                 <dd>
-                  <a href="tel:+1234567890" className="hover:text-foreground transition-colors">
-                    +1 (234) 567-890
+                  <a href="tel:+971507390610" className="hover:text-foreground transition-colors">
+                    +971 50 739 0610
                   </a>
                 </dd>
               </div>
@@ -124,8 +124,8 @@ export default function ContactSection() {
                   <EnvelopeIcon aria-hidden="true" className="h-7 w-6 text-primary" />
                 </dt>
                 <dd>
-                  <a href="mailto:hello@flxware.com" className="hover:text-foreground transition-colors">
-                    hello@flxware.com
+                  <a href="mailto:hello@flxwaretech.com" className="hover:text-foreground transition-colors">
+                    hello@flxwaretech.com
                   </a>
                 </dd>
               </div>

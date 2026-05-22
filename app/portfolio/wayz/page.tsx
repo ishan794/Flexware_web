@@ -35,7 +35,7 @@ export default function WayzPage() {
           <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
           <p className="text-muted leading-relaxed mb-6">
             Wayz revolutionizes the tourist transportation experience by combining vehicle rental with local tourism insights. 
-            Built as both web and mobile platforms using React and React Native, the system connects travelers with local 
+            Built as both web and mobile platforms using Flutter and Dart, the system connects travelers with local 
             vehicle providers while offering integrated GPS navigation and tourist attraction recommendations. The platform 
             utilizes AWS infrastructure for scalability and PostgreSQL for robust data management.
           </p>

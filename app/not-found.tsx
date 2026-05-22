@@ -11,15 +11,18 @@ export default function NotFound() {
         <p className="mt-6 text-lg font-medium text-pretty text-muted sm:text-xl/8">
           Sorry, we couldn&apos;t find the page you&apos;re looking for.
         </p>
-        <div className="mt-10 flex items-center justify-center gap-x-6">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/"
-            className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-primary-light transition-colors"
+            className="btn btn-primary"
           >
             Go back home
           </Link>
-          <Link href="/contact" className="text-sm font-semibold text-foreground hover:text-primary-light transition-colors">
-            Contact support <span aria-hidden="true">&rarr;</span>
+          <Link 
+            href="/contact" 
+            className="btn btn-outline"
+          >
+            Contact support
           </Link>
         </div>
       </div>

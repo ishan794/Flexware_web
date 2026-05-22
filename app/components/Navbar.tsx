@@ -155,10 +155,10 @@ export default function Navbar() {
             <Link
               href="/contact"
               onClick={() => setIsMobileOpen(false)}
-              className="btn btn-primary btn-sm w-full"
+              className="btn btn-primary btn-sm w-full group"
             >
               Get Started
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

@@ -35,7 +35,7 @@ export default function ExpenseTrackerPage() {
           <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
           <p className="text-muted leading-relaxed mb-6">
             The Expense Tracker app addresses the common challenge of personal financial management by providing users 
-            with a simple yet powerful tool to monitor their spending habits. Built with React Native for cross-platform 
+            with a simple yet powerful tool to monitor their spending habits. Built with Flutter for cross-platform 
             compatibility, the app features real-time expense categorization, intelligent budget suggestions, and 
             detailed financial analytics. The backend utilizes Node.js and MongoDB to ensure secure data handling and fast performance.
           </p>

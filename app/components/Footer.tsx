@@ -50,13 +50,13 @@ export default function Footer() {
 
             {/* Contact Info */}
             <div className="mt-6 space-y-3">
-              <a href="mailto:hello@flxware.com" className="flex items-center gap-3 text-sm text-muted hover:text-primary-light transition-colors">
+              <a href="mailto:hello@flxwaretech.com" className="flex items-center gap-3 text-sm text-muted hover:text-primary-light transition-colors">
                 <Mail className="w-4 h-4 text-primary" />
-                hello@flxware.com
+                hello@flxwaretech.com
               </a>
-              <a href="tel:+1234567890" className="flex items-center gap-3 text-sm text-muted hover:text-primary-light transition-colors">
+              <a href="tel:+971507390610" className="flex items-center gap-3 text-sm text-muted hover:text-primary-light transition-colors">
                 <Phone className="w-4 h-4 text-primary" />
-                +1 (234) 567-890
+                +971 50 739 0610
               </a>
               <div className="flex items-center gap-3 text-sm text-muted">
                 <MapPin className="w-4 h-4 text-primary" />

@@ -36,8 +36,8 @@ export default function FaqSection() {
         </h2>
         <p className="mt-6 max-w-2xl text-base/7 text-muted">
           Have a different question? Reach out to us at{' '}
-          <a href="mailto:hello@flxware.com" className="font-semibold text-primary hover:text-primary-light">
-            hello@flxware.com
+          <a href="mailto:hello@flxwaretech.com" className="font-semibold text-primary hover:text-primary-light">
+            hello@flxwaretech.com
           </a>
           {' '}and we&apos;ll get back to you as soon as we can.
         </p>

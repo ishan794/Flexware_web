@@ -17,7 +17,7 @@ export default function ExerciseTrackerPage() {
         </p>
 
         <div className="flex flex-wrap gap-2 mb-8">
-          {['React Native', 'Dart', 'Firebase', 'Cloud Functions'].map((t) => (
+          {['React Native', 'TypeScript', 'Firebase', 'Cloud Functions'].map((t) => (
             <span key={t} className="px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-lg">{t}</span>
           ))}
         </div>
@@ -35,7 +35,7 @@ export default function ExerciseTrackerPage() {
           <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
           <p className="text-muted leading-relaxed mb-6">
             The Exercise Tracker app was developed to address the need for a comprehensive fitness solution that goes 
-            beyond simple workout logging. Using Flutter for a native-like experience on both platforms, the app 
+            beyond simple workout logging. Using React Native for a native-like experience on both platforms, the app 
             integrates with various fitness devices and provides AI-powered workout recommendations. Firebase backend 
             ensures real-time data synchronization and social features that keep users motivated.
           </p>

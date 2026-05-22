@@ -26,14 +26,14 @@ export default function ConversationPanel({
       <div ref={listRef} className="p-3 space-y-2 overflow-auto flex-1">
         {messages.map((m) => (
           <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] p-2.5 rounded-xl ${m.role === 'user' ? 'bg-primary text-white' : 'bg-surface/60 text-foreground'}`}>
+            <div className={`max-w-[80%] p-2.5 rounded-xl ${m.role === 'user' ? 'bg-primary text-white' : 'bg-surface/60 text-foreground border border-edge'}`}>
               <div className="text-sm">{m.text}</div>
             </div>
           </div>
         ))}
         {thinking && (
           <div className="flex justify-start">
-            <div className="bg-surface/60 text-foreground max-w-[80%] p-3 rounded-xl">
+            <div className="bg-surface/60 text-foreground border border-edge max-w-[80%] p-3 rounded-xl">
               <div className="flex gap-1">
                 <span className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
                 <span className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />

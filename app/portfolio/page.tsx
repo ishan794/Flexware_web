@@ -21,7 +21,7 @@ const projects = [
     year: '2024',
     desc: 'A fitness tracking application that monitors workouts, tracks progress, and provides personalized fitness recommendations.',
     features: ['Workout Logging', 'Progress Analytics', 'Custom Routines', 'Personalized Recommendations'],
-    tech: ['React Native', 'Firebase', 'Dart', 'Cloud Functions'],
+    tech: ['React Native', 'TypeScript', 'Firebase', 'Cloud Functions'],
     icon: <Smartphone className="w-5 h-5" />,
   },
   {
