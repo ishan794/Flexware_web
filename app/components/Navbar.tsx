@@ -21,6 +21,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
 
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });

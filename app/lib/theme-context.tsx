@@ -11,31 +11,35 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue>({ theme: 'dark', toggle: () => {} });
 
+const applyTheme = (theme: Theme) => {
+  if (typeof document === 'undefined') return;
+
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.style.colorScheme = theme;
+};
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored) {
-      setTheme(stored);
-      document.documentElement.setAttribute('data-theme', stored);
-    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setTheme('light');
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
+    // Check local storage on mount or system preference
+    const storedTheme = localStorage.getItem('theme') as Theme | null;
+    const initialTheme = storedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    setTheme(initialTheme);
+    applyTheme(initialTheme);
   }, []);
 
   const toggle = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+    setTheme((prevTheme) => {
+      const newTheme = prevTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+      return newTheme;
+    });
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggle: mounted ? toggle : () => {} }}>
+    <ThemeContext.Provider value={{ theme, toggle }}>
       {children}
     </ThemeContext.Provider>
   );
