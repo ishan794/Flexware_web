@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -7,11 +6,7 @@ import ToastContainer from './components/Toast';
 import AiAssistant from './components/ai-assistant';
 import { ThemeProvider } from './lib/theme-context';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+
 
 export const metadata: Metadata = {
   title: {
@@ -53,7 +48,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${inter.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <head>
         <script
@@ -63,14 +58,10 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var stored = localStorage.getItem('theme');
-                  if (stored === 'light' || stored === 'dark') {
-                    document.documentElement.setAttribute('data-theme', stored);
-                  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                  } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                  }
+                  var storedTheme = localStorage.getItem('theme');
+                  var theme = storedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                  document.documentElement.setAttribute('data-theme', theme);
+                  document.documentElement.style.colorScheme = theme;
                 } catch (e) {}
               })();
             `

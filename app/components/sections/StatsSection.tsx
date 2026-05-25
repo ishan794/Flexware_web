@@ -1,3 +1,7 @@
+'use client';
+
+import { useTheme } from '../../lib/theme-context';
+
 const stats = [
   { id: 1, name: 'Projects Delivered', value: '150+' },
   { id: 2, name: 'Client Satisfaction', value: '98%' },
@@ -6,13 +10,19 @@ const stats = [
 ];
 
 export default function StatsSection() {
+  const { theme } = useTheme();
+
   return (
     <section className="relative isolate overflow-hidden py-24 sm:py-32">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         alt=""
-        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2850&q=80&blend=111827&blend-mode=multiply&sat=-100&exp=15"
-        className="absolute inset-0 -z-10 size-full object-cover"
+        src={
+          theme === 'light'
+            ? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2850&q=80&blend=111827&blend-mode=screen&sat=-100&exp=15'
+            : 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2850&q=80&blend=111827&blend-mode=multiply&sat=-100&exp=15'
+        }
+        className={`absolute inset-0 -z-10 size-full object-cover ${theme === 'light' ? 'opacity-10' : ''}`}
       />
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div
@@ -24,7 +34,11 @@ export default function StatsSection() {
               clipPath:
                 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
             }}
-            className="aspect-1266/975 w-316.5 bg-gradient-to-tr from-primary/30 to-secondary/30 opacity-20"
+            className={`aspect-1266/975 w-316.5 ${
+              theme === 'light'
+                ? 'bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-15'
+                : 'bg-gradient-to-tr from-primary/30 to-secondary/30 opacity-20'
+            }`}
           />
         </div>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">

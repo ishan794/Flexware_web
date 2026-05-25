@@ -7,55 +7,55 @@
 
 @theme inline {
   /* ---- Light Blue (30%) ---- */
-  --color-primary: #3b82f6;
-  --color-primary-light: #60a5fa;
-  --color-primary-dark: #2563eb;
-  --color-secondary: #6366f1;
-  --color-secondary-light: #818cf8;
-  --color-secondary-dark: #4f46e5;
+  --color-primary: var(--theme-primary);
+  --color-primary-light: var(--theme-primary-light);
+  --color-primary-dark: var(--theme-primary-dark);
+  --color-secondary: var(--theme-secondary);
+  --color-secondary-light: var(--theme-secondary-light);
+  --color-secondary-dark: var(--theme-secondary-dark);
 
   /* ---- Accent Colors ---- */
-  --color-accent: #0ea5e9;
-  --color-accent-light: #38bdf8;
-  --color-rose: #fb7185;
-  --color-rose-light: #fda4af;
-  --color-emerald: #22c55e;
-  --color-amber: #facc15;
+  --color-accent: var(--theme-accent);
+  --color-accent-light: var(--theme-accent-light);
+  --color-rose: var(--theme-rose);
+  --color-rose-light: var(--theme-rose-light);
+  --color-emerald: var(--theme-emerald);
+  --color-amber: var(--theme-amber);
 
   /* ---- Dark Blue (30%) ---- */
-  --color-background: #050a18;
-  --color-surface: #0a1025;
-  --color-surface-light: #111935;
-  --color-surface-lighter: #1a2340;
+  --color-background: var(--theme-background);
+  --color-surface: var(--theme-surface);
+  --color-surface-light: var(--theme-surface-light);
+  --color-surface-lighter: var(--theme-surface-lighter);
 
   /* ---- White (40%) ---- */
-  --color-foreground: #ffffff;
-  --color-muted: #e2e8f0;
-  --color-subtle: #a0aec0;
+  --color-foreground: var(--theme-foreground);
+  --color-muted: var(--theme-muted);
+  --color-subtle: var(--theme-subtle);
 
   /* ---- Border Colors ---- */
-  --color-edge: rgba(255, 255, 255, 0.06);
-  --color-edge-hover: rgba(255, 255, 255, 0.12);
-  --color-edge-active: rgba(255, 255, 255, 0.2);
+  --color-edge: var(--theme-edge);
+  --color-edge-hover: var(--theme-edge-hover);
+  --color-edge-active: var(--theme-edge-active);
 
   /* ---- Status Colors ---- */
-  --color-success: #10b981;
-  --color-error: #ef4444;
-  --color-warning: #f59e0b;
-  --color-info: #3b82f6;
+  --color-success: var(--theme-success);
+  --color-error: var(--theme-error);
+  --color-warning: var(--theme-warning);
+  --color-info: var(--theme-info);
 
   /* ---- Typography ---- */
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
   /* ---- Custom Shadows ---- */
-  --shadow-glow-sm: 0 0 15px rgba(56, 189, 248, 0.15);
-  --shadow-glow: 0 0 30px rgba(56, 189, 248, 0.2);
-  --shadow-glow-lg: 0 0 60px rgba(56, 189, 248, 0.25);
-  --shadow-glow-cyan: 0 0 30px rgba(34, 211, 238, 0.2);
-  --shadow-glow-rose: 0 0 30px rgba(244, 114, 182, 0.2);
-  --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-elevated-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-glow-sm: var(--theme-shadow-glow-sm);
+  --shadow-glow: var(--theme-shadow-glow);
+  --shadow-glow-lg: var(--theme-shadow-glow-lg);
+  --shadow-glow-cyan: var(--theme-shadow-glow-cyan);
+  --shadow-glow-rose: var(--theme-shadow-glow-rose);
+  --shadow-elevated: var(--theme-shadow-elevated);
+  --shadow-elevated-lg: var(--theme-shadow-elevated-lg);
 
   /* ---- Border Radius ---- */
   --radius-xs: 0.25rem;
@@ -82,7 +82,102 @@
   --animate-shimmer: shimmer 2s linear infinite;
   --animate-wave: wave 1.5s ease-in-out infinite;
 }
+@layer base {
+  :root, :root[data-theme='dark'] {
+    --theme-primary: #3b82f6;
+    --theme-primary-light: #60a5fa;
+    --theme-primary-dark: #2563eb;
+    --theme-secondary: #6366f1;
+    --theme-secondary-light: #818cf8;
+    --theme-secondary-dark: #4f46e5;
+    --theme-accent: #0ea5e9;
+    --theme-accent-light: #38bdf8;
+    --theme-rose: #fb7185;
+    --theme-rose-light: #fda4af;
+    --theme-emerald: #22c55e;
+    --theme-amber: #facc15;
+    --theme-background: #050a18;
+    --theme-surface: #0a1025;
+    --theme-surface-light: #111935;
+    --theme-surface-lighter: #1a2340;
+    --theme-foreground: #ffffff;
+    --theme-muted: #e2e8f0;
+    --theme-subtle: #a0aec0;
+    --theme-edge: rgba(255, 255, 255, 0.06);
+    --theme-edge-hover: rgba(255, 255, 255, 0.12);
+    --theme-edge-active: rgba(255, 255, 255, 0.2);
+    --theme-success: #10b981;
+    --theme-error: #ef4444;
+    --theme-warning: #f59e0b;
+    --theme-info: #3b82f6;
+    --theme-shadow-glow-sm: 0 0 15px rgba(56, 189, 248, 0.15);
+    --theme-shadow-glow: 0 0 30px rgba(56, 189, 248, 0.2);
+    --theme-shadow-glow-lg: 0 0 60px rgba(56, 189, 248, 0.25);
+    --theme-shadow-glow-cyan: 0 0 30px rgba(34, 211, 238, 0.2);
+    --theme-shadow-glow-rose: 0 0 30px rgba(244, 114, 182, 0.2);
+    --theme-shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --theme-shadow-elevated-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  }
+}
 
+
+/* ============================================
+   LIGHT THEME OVERRIDES
+   ============================================ */
+
+:root[data-theme='light'] {
+  --theme-background: #ffffff;
+  --theme-surface: #f8fafc;
+  --theme-surface-light: #f1f5f9;
+  --theme-surface-lighter: #e2e8f0;
+  
+  --theme-foreground: #0f172a;
+  --theme-muted: #64748b;
+  --theme-subtle: #94a3b8;
+  
+  --theme-edge: rgba(0, 0, 0, 0.1);
+  --theme-edge-hover: rgba(0, 0, 0, 0.15);
+  --theme-edge-active: rgba(0, 0, 0, 0.2);
+  
+  --theme-shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --theme-shadow-elevated-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme='light'] .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='light'] .glass-strong {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme='light'] .glass-light {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme='light'] .glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='light'] .glass-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='light'] .btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-foreground);
+}
+
+:root[data-theme='light'] .btn-outline:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--color-edge-active);
+}
 /* ============================================
    KEYFRAMES
    ============================================ */
@@ -210,23 +305,7 @@
    BASE STYLES
    ============================================ */
 
-:root[data-theme='light'] {
-  --color-background: #ffffff;
-  --color-surface: #f8fafc;
-  --color-surface-light: #f1f5f9;
-  --color-surface-lighter: #e2e8f0;
-  
-  --color-foreground: #0f172a;
-  --color-muted: #475569;
-  --color-subtle: #64748b;
 
-  --color-edge: rgba(0, 0, 0, 0.1);
-  --color-edge-hover: rgba(0, 0, 0, 0.15);
-  --color-edge-active: rgba(0, 0, 0, 0.2);
-
-  --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-elevated-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-}
 
 html {
   scroll-behavior: smooth;
@@ -285,10 +364,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-:root[data-theme='light'] .glass {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
+
 
 .glass-strong {
   background: rgba(10, 15, 30, 0.85);
@@ -297,10 +373,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-:root[data-theme='light'] .glass-strong {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
+
 
 .glass-light {
   background: rgba(255, 255, 255, 0.03);
@@ -309,10 +382,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-:root[data-theme='light'] .glass-light {
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
+
 
 .glass-card {
   background: rgba(15, 23, 42, 0.5);
@@ -322,10 +392,7 @@ body {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-:root[data-theme='light'] .glass-card {
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
+
 
 .glass-card:hover {
   background: rgba(15, 23, 42, 0.7);
@@ -334,11 +401,7 @@ body {
   transform: translateY(-2px);
 }
 
-:root[data-theme='light'] .glass-card:hover {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
-}
+
 
 /* ============================================
    GRADIENT UTILITIES
