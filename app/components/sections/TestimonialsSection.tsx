@@ -38,10 +38,11 @@ const testimonials = [
 ];
 
 const allTestimonials = testimonials.flat();
+const duplicatedTestimonials = [...allTestimonials, ...allTestimonials];
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="relative isolate py-24 sm:py-32">
+    <section id="testimonials" className="relative isolate py-24 sm:py-32 overflow-hidden">
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl"
@@ -61,27 +62,44 @@ export default function TestimonialsSection() {
             Trusted by industry leaders
           </p>
         </div>
+      </div>
 
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 text-sm/6 text-foreground sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-3">
-          {allTestimonials.map((t, i) => (
-            <figure
-              key={t.author.handle}
-              className={`rounded-2xl bg-surface-lighter/75 p-6 ring-1 ring-edge ${i === 0 ? 'lg:col-span-2 xl:col-span-1' : ''}`}
-            >
-              <blockquote className="text-foreground">
-                <p>{`"${t.body}"`}</p>
-              </blockquote>
-              <figcaption className="mt-6 flex items-center gap-x-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img alt="" src={t.author.imageUrl} className="size-10 rounded-full" />
-                <div>
-                  <div className="font-semibold text-foreground">{t.author.name}</div>
-                  <div className="text-muted">{`@${t.author.handle}`}</div>
-                </div>
-              </figcaption>
-            </figure>
-          ))}
+      <div className="mt-16 sm:mt-20 relative w-full overflow-hidden">
+        {/* Container with asymmetric fade mask */}
+        <div className="relative w-full h-full" style={{
+            maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 60%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 60%, transparent 100%)'
+          }}>
+          <div 
+            className="flex w-max gap-8 pb-8 hover:[animation-play-state:paused]"
+            style={{ animation: 'auto-scroll 60s linear infinite' }}
+          >
+            {duplicatedTestimonials.map((t, i) => (
+              <figure
+                key={`${t.author.handle}-${i}`}
+                className="shrink-0 w-[85vw] sm:w-[400px] rounded-2xl bg-surface-lighter/75 p-6 ring-1 ring-edge/50 shadow-lg hover:ring-primary/50 hover:bg-surface-lighter hover:-translate-y-1 transition-all duration-300"
+              >
+                <blockquote className="text-foreground text-sm/6">
+                  <p>{`"${t.body}"`}</p>
+                </blockquote>
+                <figcaption className="mt-6 flex items-center gap-x-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img alt="" src={t.author.imageUrl} className="size-10 rounded-full" />
+                  <div>
+                    <div className="font-semibold text-foreground text-sm/6">{t.author.name}</div>
+                    <div className="text-muted text-sm/6">{`@${t.author.handle}`}</div>
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
+        
+        {/* Blur overlay on the right side to blur upcoming testimonials */}
+        <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none backdrop-blur-sm z-10" style={{
+            maskImage: 'linear-gradient(to left, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to left, black 0%, transparent 100%)'
+          }} />
       </div>
     </section>
   );

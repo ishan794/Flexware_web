@@ -12,6 +12,9 @@ import {
   Zap,
   Shield,
   HeartHandshake,
+  Atom,
+  Server,
+  Database,
 } from 'lucide-react';
 import SectionHeading from './components/SectionHeading';
 import { useScrollAnimation, staggerStyle } from './lib/animations';
@@ -206,17 +209,48 @@ export default function HomePage() {
   );
 }
 
+const techIcons: Record<string, React.ReactNode> = {
+  'React': <Atom className="w-8 h-8" />,
+  'Node.js': <Server className="w-8 h-8" />,
+  'MongoDB': <Database className="w-8 h-8" />,
+  'AWS': <Cloud className="w-8 h-8" />,
+  'Flutter': <Smartphone className="w-8 h-8" />,
+  'TypeScript': <Code2 className="w-8 h-8" />,
+};
+
 function TechCard({ tech, index }: { tech: string; index: number }) {
   const { ref, isVisible } = useScrollAnimation();
+  const icon = techIcons[tech];
+  
   return (
     <div
       ref={ref}
-      className={`group px-8 py-5 rounded-2xl glass-card border border-edge hover:border-primary/30 hover:bg-primary/5 hover:scale-105 transition-all duration-500 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+      className={`group relative flex flex-col items-center justify-center w-[160px] h-[160px] rounded-3xl glass-card border border-edge hover:border-primary/40 hover:bg-surface-lighter/50 transition-all duration-500 overflow-visible ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
       style={staggerStyle(index, 100)}
     >
-      <span className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+      <div className="relative mb-5 z-10 [perspective:1000px]">
+        {/* Glow behind the icon */}
+        <div className="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {/* 3D Icon Container */}
+        <div 
+          className="relative text-primary flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-surface to-surface-lighter border border-edge shadow-elevated-lg group-hover:shadow-glow transition-all duration-500 group-hover:[transform:rotateX(20deg)_rotateY(-15deg)_translateZ(20px)_scale(1.1)] [transform-style:preserve-3d] [animation:float_4s_ease-in-out_infinite]"
+          style={{ animationDelay: `${index * 0.15}s` }}
+        >
+          {/* Depth layers for 3D effect */}
+          <div className="absolute inset-0 rounded-2xl bg-primary/20 [transform:translateZ(-8px)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 rounded-2xl bg-primary/10 [transform:translateZ(-16px)] opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+          
+          {/* The Icon itself */}
+          <div className="relative z-10 [transform:translateZ(15px)] drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] group-hover:text-accent transition-colors duration-500">
+             {icon}
+          </div>
+        </div>
+      </div>
+      
+      <span className="text-lg font-bold text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-accent transition-all duration-300">
         {tech}
       </span>
     </div>

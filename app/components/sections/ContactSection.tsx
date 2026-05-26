@@ -133,9 +133,11 @@ export default function ContactSection() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 pt-20 pb-24 sm:pb-32 lg:px-8 lg:py-48" noValidate>
-          <div className="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <div className="px-6 pt-20 pb-24 sm:pb-32 lg:px-8 lg:py-48 flex items-center lg:justify-end">
+          <div className="relative mx-auto w-full max-w-xl lg:mx-0 lg:max-w-lg group">
+            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/40 to-secondary/40 opacity-20 blur-xl transition duration-500 group-hover:opacity-50 group-hover:duration-200" />
+            <form onSubmit={handleSubmit} className="relative rounded-3xl bg-surface-lighter/50 p-8 ring-1 ring-edge backdrop-blur-sm sm:p-10 shadow-2xl transition-all duration-500 group-hover:ring-primary/50" noValidate>
+              <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="first-name-cs" className="block text-sm/6 font-semibold text-foreground">First name *</label>
                 <div className="mt-2.5">
@@ -177,8 +179,9 @@ export default function ContactSection() {
                 {submitting ? 'Sending...' : 'Send message'}
               </button>
             </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </section>
   );
