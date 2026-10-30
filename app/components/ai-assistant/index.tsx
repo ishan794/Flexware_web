@@ -1,18 +1,22 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { X } from 'lucide-react';
 import AssistantAvatar from './AssistantAvatar';
 import VoiceButton from './VoiceButton';
 import ConversationPanel from './ConversationPanel';
 import { speak } from './tts';
+import { OPEN_ASSISTANT_EVENT } from './events';
 
 export type Message = { id: string; role: 'user' | 'assistant'; text: string };
 
-export default function AiAssistant() {
+export default function AiAssistant({ contactEmail }: { contactEmail: string }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [thinking, setThinking] = useState(false);
   const [assistantState, setAssistantState] = useState<'idle' | 'listening' | 'thinking' | 'speaking'>('idle');
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,62 +28,114 @@ export default function AiAssistant() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSend = useCallback(async (text: string) => {
-    if (!text || text.trim() === '') return;
-    const userMsg: Message = { id: String(Date.now()), role: 'user', text };
-    setMessages((m) => [...m, userMsg]);
+  // Other components (banner, hero) can open the panel
+  useEffect(() => {
+    const handleOpen = () => setOpen(true);
+    window.addEventListener(OPEN_ASSISTANT_EVENT, handleOpen);
+    return () => window.removeEventListener(OPEN_ASSISTANT_EVENT, handleOpen);
+  }, []);
 
-    try {
-      setThinking(true);
-      setAssistantState('thinking');
-      const res = await fetch('/api/assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          history: messages.map((m) => ({ role: m.role, text: m.text })),
-        }),
-      });
-      const data = await res.json();
-      const reply: string = data?.reply ?? 'Sorry, I could not process that right now.';
-      setMessages((m) => [...m, { id: String(Date.now() + 1), role: 'assistant', text: reply }]);
-      setThinking(false);
-      setAssistantState('speaking');
-      speak(reply, () => setAssistantState('idle'));
-    } catch {
-      setMessages((m) => [...m, { id: String(Date.now() + 1), role: 'assistant', text: 'There was an error reaching the assistant.' }]);
-      setThinking(false);
-      setAssistantState('idle');
-    }
-  }, [messages]);
+  const close = useCallback(() => {
+    setOpen(false);
+    launcherRef.current?.focus();
+  }, []);
 
-  const onTranscript = useCallback((text: string) => {
-    setAssistantState('listening');
-    handleSend(text);
-  }, [handleSend]);
+  // Escape closes the panel and returns focus to the launcher
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, close]);
+
+  const handleSend = useCallback(
+    async (text: string) => {
+      if (!text || text.trim() === '') return;
+      const userMsg: Message = { id: String(Date.now()), role: 'user', text };
+      setMessages((m) => [...m, userMsg]);
+
+      try {
+        setThinking(true);
+        setAssistantState('thinking');
+        const res = await fetch('/api/assistant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            history: messages.map((m) => ({ role: m.role, text: m.text })),
+          }),
+        });
+        if (!res.ok) throw new Error(`Assistant responded ${res.status}`);
+        const data = await res.json();
+        const reply: string = data?.reply ?? 'Sorry, I could not process that right now.';
+        setMessages((m) => [...m, { id: String(Date.now() + 1), role: 'assistant', text: reply }]);
+        setThinking(false);
+        setAssistantState('speaking');
+        speak(reply, () => setAssistantState('idle'));
+      } catch {
+        setMessages((m) => [
+          ...m,
+          {
+            id: String(Date.now() + 1),
+            role: 'assistant',
+            text: `I can't connect right now. Please try again in a moment, or email ${contactEmail} and the team will help.`,
+          },
+        ]);
+        setThinking(false);
+        setAssistantState('idle');
+      }
+    },
+    [messages, contactEmail]
+  );
+
+  const onTranscript = useCallback(
+    (text: string) => {
+      setAssistantState('listening');
+      handleSend(text);
+    },
+    [handleSend]
+  );
 
   return (
     <div>
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
         <button
-          aria-label="Open assistant"
-          onClick={() => setOpen((s) => !s)}
-          className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary shadow-lg flex items-center justify-center text-white ring-4 ring-primary/10"
+          ref={launcherRef}
+          type="button"
+          aria-label={open ? 'Close Flxware assistant' : 'Open Flxware assistant'}
+          aria-expanded={open}
+          aria-controls="ai-assistant-panel"
+          onClick={() => (open ? close() : setOpen(true))}
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary-dark to-secondary-dark text-white shadow-elevated-lg ring-4 ring-primary/15 transition-transform duration-200 hover:scale-105 active:scale-95"
         >
           <AssistantAvatar state={assistantState} />
         </button>
       </div>
 
       {open && (
-        <div className="fixed bottom-28 right-3 left-3 md:left-auto md:right-6 z-50 w-auto md:w-[420px] bg-surface/80 backdrop-blur rounded-2xl shadow-2xl overflow-hidden">
-          <div className="p-4 border-b border-muted/10 flex items-center gap-3">
+        <div
+          ref={panelRef}
+          id="ai-assistant-panel"
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="ai-assistant-title"
+          className="glass-strong fixed inset-x-3 bottom-24 z-50 overflow-hidden rounded-2xl shadow-elevated-lg animate-scale-in sm:inset-x-auto sm:right-6 sm:bottom-24 sm:w-[420px]"
+        >
+          <div className="flex items-center gap-3 border-b border-edge p-4">
             <AssistantAvatar state={assistantState} size="md" />
-            <div>
-              <div className="text-sm font-semibold">Flxware Assistant</div>
-              <div className="text-xs text-muted">Here to help — ask about services, pricing, timelines.</div>
+            <div className="min-w-0">
+              <h2 id="ai-assistant-title" className="text-sm font-semibold text-foreground">
+                Flxware Assistant
+              </h2>
+              <p className="text-xs text-muted">Ask about services, pricing, timelines.</p>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-1">
               <VoiceButton onTranscript={onTranscript} disabled={thinking} />
+              <button type="button" onClick={close} className="icon-btn" aria-label="Close assistant">
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
             </div>
           </div>
 

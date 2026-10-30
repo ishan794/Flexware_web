@@ -1,93 +1,94 @@
-'use client';
-
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useTheme } from '../../lib/theme-context';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import OpenAssistantButton from '../ai-assistant/OpenAssistantButton';
+import HeroVisual from './HeroVisual';
+import { getIcon } from '../../lib/icons';
+import type { Highlight, HomepageContent } from '../../lib/cms/types';
+import { defaultContent } from '../../lib/cms/defaults';
 
-export default function HeroSection() {
-  const { theme } = useTheme();
-
+/** Homepage hero; copy is edited in Admin → Homepage, capability chips come from the service highlights */
+export default function HeroSection({
+  hero = defaultContent.homepage.hero,
+  capabilities = defaultContent.homepage.highlights,
+}: {
+  hero?: HomepageContent['hero'];
+  capabilities?: Highlight[];
+}) {
   return (
-    <div className="relative isolate overflow-hidden pt-14">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        alt=""
-        src={
-          theme === 'light'
-            ? 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=fff&sat=-100&exp=15&blend-mode=overlay'
-            : 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply'
-        }
-        className={`absolute inset-0 -z-10 size-full object-cover ${theme === 'light' ? 'opacity-10' : ''}`}
+    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden">
+      {/* Backdrop: fading technical grid + two restrained brand glows */}
+      <div aria-hidden="true" className="bg-tech-grid absolute inset-0 -z-10" />
+      <div
+        aria-hidden="true"
+        className="absolute -top-40 right-[-10%] -z-10 h-[34rem] w-[34rem] rounded-full blur-3xl"
+        style={{ background: 'radial-gradient(circle, var(--theme-glow-a), transparent 65%)' }}
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-      >
-        <div
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-          className={`relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75 ${
-            theme === 'light' 
-              ? 'bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]' 
-              : 'bg-gradient-to-tr from-primary/30 to-secondary/30'
-          }`}
-        />
-      </div>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm/6 text-muted ring-1 ring-edge hover:ring-edge-hover transition-colors">
-              Announcing our AI Business Assistant.{' '}
-              <Link href="#" className="font-semibold text-primary hover:text-primary-light">
-                <span aria-hidden="true" className="absolute inset-0" />
-                Read more <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-          </div>
-          <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-7xl">
-              Build Tomorrow&apos;s Digital Products
-            </h1>
-            <p className="mt-8 text-lg font-medium text-pretty text-muted sm:text-xl/8">
-              Flxware crafts cutting-edge web applications, mobile solutions, and AI-powered systems
-              that transform businesses and delight users.
+        className="absolute -left-40 top-1/3 -z-10 h-[28rem] w-[28rem] rounded-full blur-3xl"
+        style={{ background: 'radial-gradient(circle, var(--theme-glow-b), transparent 65%)' }}
+      />
+
+      <div className="container-page grid items-center gap-16 pb-20 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:pb-28 lg:pt-20">
+        <div className="max-w-2xl">
+          {hero.badge && (
+            <p
+              className="relative mb-7 inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 rounded-full border border-edge bg-surface/80 py-1 pl-1.5 pr-3.5 text-sm text-muted shadow-elevated animate-fade-up"
+            >
+              <span className="rounded-full bg-secondary/15 px-2 py-0.5 text-xs font-semibold text-secondary">New</span>
+              <span>{hero.badge}</span>
+              <OpenAssistantButton className="inline-flex items-center gap-0.5 font-semibold text-foreground hover:text-primary">
+                <span aria-hidden="true" className="absolute inset-0 rounded-full" />
+                Try it now <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </OpenAssistantButton>
             </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/contact"
-                className="btn btn-primary btn-lg group animate-pulse-soft"
-              >
-                Get started
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link 
-                href="/services" 
-                className="btn btn-outline btn-lg"
-              >
-                Learn more
-              </Link>
-            </div>
+          )}
+
+          <h1 id="hero-title" className="text-display text-foreground animate-fade-up" style={{ animationDelay: '60ms' }}>
+            {hero.title}
+          </h1>
+
+          <p className="text-lead mt-6 max-w-xl animate-fade-up" style={{ animationDelay: '120ms' }}>
+            {hero.subtitle}
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 animate-fade-up sm:flex-row sm:items-center" style={{ animationDelay: '180ms' }}>
+            <Link href="/contact" className="btn btn-primary btn-lg group">
+              {hero.primaryCtaLabel}
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </Link>
+            <Link href="/services" className="btn btn-outline btn-lg">
+              {hero.secondaryCtaLabel}
+            </Link>
           </div>
+
+          {capabilities.length > 0 && (
+            <div className="mt-10 animate-fade-up border-t border-edge pt-6" style={{ animationDelay: '240ms' }}>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-subtle">What we build</p>
+              <ul className="flex flex-wrap gap-2">
+                {capabilities.map((c) => {
+                  const Icon = getIcon(c.icon);
+                  return (
+                    <li key={c.title}>
+                      <Link
+                        href={c.href}
+                        className="inline-flex items-center gap-2 rounded-full border border-edge bg-surface/70 px-3 py-1.5 text-sm text-muted transition-colors hover:border-edge-active hover:text-foreground"
+                      >
+                        <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
+                        {c.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div className="relative pb-6 pl-4 pr-2 pt-6 sm:pl-10 lg:pl-0">
+          <HeroVisual />
         </div>
       </div>
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-      >
-        <div
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-          className={`relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75 ${
-            theme === 'light'
-              ? 'bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]'
-              : 'bg-gradient-to-tr from-primary/30 to-secondary/30'
-          }`}
-        />
-      </div>
-    </div>
+    </section>
   );
 }

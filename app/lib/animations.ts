@@ -35,8 +35,10 @@ export function useScrollAnimation(options?: IntersectionObserverInit) {
 /**
  * Hook for auto-applying `.is-visible` to `.animate-on-scroll` elements.
  * Call once in your layout or page to activate scroll animations globally.
+ * Pass a value that changes per route (e.g. the pathname) so new pages are scanned
+ * after client-side navigation.
  */
-export function useGlobalScrollAnimations() {
+export function useGlobalScrollAnimations(rescanKey?: unknown) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -50,11 +52,11 @@ export function useGlobalScrollAnimations() {
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    const elements = document.querySelectorAll('.animate-on-scroll');
+    const elements = document.querySelectorAll('.animate-on-scroll:not(.is-visible)');
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [rescanKey]);
 }
 
 /**

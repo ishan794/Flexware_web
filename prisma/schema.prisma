@@ -1,0 +1,169 @@
+// Flxware CMS schema
+// - Singleton documents (settings, homepage, about, seo) live in SiteContent as JSON.
+// - Repeating content gets its own table with `order` + `published` so the public
+//   site only ever shows content an admin has explicitly published.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model SiteContent {
+  key       String   @id
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  icon        String
+  title       String
+  description String
+  features    String[]
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  type       String
+  year       String
+  icon       String
+  summary    String
+  cardTech   String[]
+  tagline    String
+  tech       String[]
+  /// [[label, value], …]
+  facts      Json
+  overview   String
+  features   String[]
+  challenges String[]
+  solutions  String[]
+  imageUrl   String?
+  order      Int      @default(0)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Job {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  dept         String
+  type         String
+  commitment   String
+  about        String[]
+  requirements String[]
+  order        Int      @default(0)
+  published    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  name      String
+  role      String
+  imageUrl  String?
+  order     Int      @default(0)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ClientLogo {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String?
+  href      String?
+  order     Int      @default(0)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  imageUrl    String?
+  linkedinUrl String?
+  order       Int      @default(0)
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CompanyStat {
+  id        String   @id @default(cuid())
+  value     String
+  label     String
+  order     Int      @default(0)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum InquiryStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  phone     String?
+  message   String
+  /// Which form it came from: "contact-page" | "home"
+  source    String
+  status    InquiryStatus @default(NEW)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  /// Stored file name inside UPLOAD_DIR (random, collision-free)
+  filename     String   @unique
+  originalName String
+  mimeType     String
+  size         Int
+  alt          String   @default("")
+  createdAt    DateTime @default(now())
+}
+
+model AdminSession {
+  id         String   @id @default(cuid())
+  /// SHA-256 of the session token; the raw token only exists in the httpOnly cookie
+  tokenHash  String   @unique
+  /// owner | editor | viewer — see app/lib/server/permissions.ts
+  role       String   @default("owner")
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  lastSeenAt DateTime @default(now())
+
+  @@index([expiresAt])
+}
+
+/// Single shared admin password. When this row exists it takes precedence over ADMIN_PASSWORD.
+model AdminCredential {
+  id           Int      @id @default(1)
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}

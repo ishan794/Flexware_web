@@ -29,6 +29,7 @@ import {
   LandingSection,
   SectionHeading,
 } from './LandingPrimitives';
+import type { Testimonial } from '../../lib/content';
 
 const navLinks = [
   { href: '#assistant', label: 'Assistant' },
@@ -76,29 +77,15 @@ const dashboardRows = [
   ['Churn alerts', 'Queued', '91.8%', '2.6s'],
 ];
 
-const testimonials = [
-  {
-    quote: 'Flxware turned our scattered operations into a measurable automation system. The AI agent now handles qualification before our team opens the CRM.',
-    name: 'Maya Fernando',
-    role: 'COO, Atlas Growth',
-  },
-  {
-    quote: 'The architecture felt like a real product, not a pile of scripts. We got approvals, logs, fallbacks, and dashboards from the first release.',
-    name: 'Daniel Ross',
-    role: 'VP Engineering, Northline',
-  },
-  {
-    quote: 'Our support backlog dropped in the first month because the assistant could classify, enrich, and route requests without losing context.',
-    name: 'Priya Shah',
-    role: 'Head of CX, OrbitDesk',
-  },
-];
+// Headline KPIs for the dashboard preview. Only add real, verifiable figures here.
+const verifiedMetrics: [value: string, label: string][] = [];
 
 // Use client router redirection inside DarkAutomationLanding
-export default function DarkAutomationLanding() {
+/** Testimonials are the published entries from Admin → Testimonials; the section is hidden when empty. */
+export default function DarkAutomationLanding({ testimonials = [] }: { testimonials?: Testimonial[] }) {
 
   return (
-    <div data-theme="dark" className="-mt-20 min-h-screen bg-black text-white">
+    <div data-theme="dark" className="min-h-screen bg-black text-white">
       <LandingChromeReset />
       <LandingNav
         mode="dark"
@@ -115,7 +102,7 @@ export default function DarkAutomationLanding() {
         <IntegrationsSection />
         <ArchitectureSection />
         <DashboardPreview />
-        <TestimonialsSection />
+        <TestimonialsSection testimonials={testimonials} />
         <PricingCta />
       </main>
       <LandingFooter
@@ -175,7 +162,7 @@ function DarkHero() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link href="#dashboard" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-white/10">
-              View live cockpit
+              See dashboard preview
               <Activity className="h-4 w-4" />
             </Link>
           </div>
@@ -194,7 +181,7 @@ function DarkHero() {
                 </div>
               </div>
               <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-200">
-                Live execution
+                Example workflow
               </span>
             </div>
           </div>
@@ -236,7 +223,7 @@ function AssistantShowcase() {
                 <p className="text-sm text-gray-400">Qualification and routing assistant</p>
               </div>
             </div>
-            <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-gray-300">Online</span>
+            <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-gray-300">Example conversation</span>
           </div>
           <div className="mt-6 space-y-4">
             {assistantMessages.map((message) => (
@@ -254,6 +241,7 @@ function AssistantShowcase() {
             ['4', 'Systems updated', 'CRM, Slack, docs, calendar'],
           ].map(([value, label, detail]) => (
             <div key={label} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-cyan-300/40 hover:bg-white/10">
+              <p className="mb-3 text-xs font-medium uppercase tracking-wider text-gray-400">Example output</p>
               <p className="text-4xl font-semibold text-white">{value}</p>
               <p className="mt-2 font-medium text-gray-200">{label}</p>
               <p className="mt-1 text-sm text-gray-400">{detail}</p>
@@ -384,26 +372,24 @@ function DashboardPreview() {
     <LandingSection id="dashboard" className="bg-black">
       <SectionHeading
         mode="dark"
-        eyebrow="Live dashboard"
+        eyebrow="Dashboard preview"
         title="Monitor automations like production infrastructure"
-        description="Track every workflow run, confidence score, human handoff, queue delay, and revenue impact from one cinematic control room."
+        description="Track every workflow run, confidence score, human handoff, queue delay, and revenue impact from one control room. Figures below are illustrative sample data."
       />
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl">
+        {verifiedMetrics.length > 0 && (
         <div className="grid gap-px bg-white/10 md:grid-cols-4">
-          {[
-            ['1.8M', 'events processed'],
-            ['97.2%', 'successful runs'],
-            ['42%', 'manual work removed'],
-            ['8.4s', 'median resolution'],
-          ].map(([value, label]) => (
+          {verifiedMetrics.map(([value, label]) => (
             <div key={label} className="bg-zinc-950/90 p-6">
               <p className="text-3xl font-semibold text-white">{value}</p>
               <p className="mt-2 text-sm text-gray-400">{label}</p>
             </div>
           ))}
         </div>
+        )}
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">
+            <caption className="sr-only">Sample workflow runs (illustrative data)</caption>
             <thead className="border-b border-white/10 text-gray-400">
               <tr>
                 <th className="px-6 py-4 font-medium">Workflow</th>
@@ -429,7 +415,9 @@ function DashboardPreview() {
   );
 }
 
-function TestimonialsSection() {
+function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
+  if (testimonials.length === 0) return null;
+
   return (
     <LandingSection className="bg-zinc-950">
       <SectionHeading
@@ -460,7 +448,7 @@ function PricingCta() {
         <div className="grid gap-px bg-white/10 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="bg-zinc-950/95 p-8 md:p-12">
             <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-200">
-              Pricing and CTA
+              Engagement models
             </span>
             <h2 className="mt-6 text-3xl font-semibold leading-tight text-white md:text-5xl">
               Launch your first AI automation stack in weeks

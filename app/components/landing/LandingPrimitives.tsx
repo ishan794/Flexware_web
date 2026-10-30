@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
+import Logo from '../Logo';
 
 type LandingMode = 'dark' | 'light';
 
@@ -59,6 +60,17 @@ const modeClasses = {
   },
 };
 
+function BrandMark({ mode, product }: { mode: LandingMode; product: string }) {
+  // "Flxware AI" -> logo + "AI"
+  const suffix = product.replace(/^Flxware\s*/i, '');
+  return (
+    <>
+      <Logo variant={mode === 'dark' ? 'onDark' : 'onLight'} className="h-6 w-auto" />
+      {suffix && <span aria-hidden="true">{suffix}</span>}
+    </>
+  );
+}
+
 export function LandingChromeReset() {
   return (
     <style>{`
@@ -82,8 +94,8 @@ export function LandingNav({
   return (
     <header className={`fixed inset-x-0 top-0 z-50 border-b ${classes.nav}`}>
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
-        <Link href="/" className={`text-lg font-semibold ${classes.brand}`}>
-          {product}
+        <Link href="/" aria-label={product} className={`flex items-center gap-2 text-lg font-semibold ${classes.brand}`}>
+          <BrandMark mode={mode} product={product} />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -165,8 +177,12 @@ export function LandingFooter({ mode, product, description }: LandingFooterProps
     <footer className={`border-t px-6 py-12 lg:px-8 ${classes.footer}`}>
       <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
         <div>
-          <Link href="/" className={`text-lg font-semibold ${mode === 'dark' ? 'text-white' : 'text-gray-950'}`}>
-            {product}
+          <Link
+            href="/"
+            aria-label={product}
+            className={`flex w-fit items-center gap-2 text-lg font-semibold ${mode === 'dark' ? 'text-white' : 'text-gray-950'}`}
+          >
+            <BrandMark mode={mode} product={product} />
           </Link>
           <p className={`mt-3 max-w-xl text-sm leading-6 ${classes.footerMuted}`}>{description}</p>
         </div>

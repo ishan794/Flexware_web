@@ -1,62 +1,44 @@
-'use client';
+import Reveal from '../Reveal';
+import type { CompanyStat } from '../../lib/content';
 
-import { useTheme } from '../../lib/theme-context';
+interface StatsSectionProps {
+  stats?: CompanyStat[];
+  title?: string;
+  description?: string;
+}
 
-const stats = [
-  { id: 1, name: 'Projects Delivered', value: '150+' },
-  { id: 2, name: 'Client Satisfaction', value: '98%' },
-  { id: 3, name: 'Uptime Guarantee', value: '99.9%' },
-  { id: 4, name: 'Team Members', value: '40+' },
-];
-
-export default function StatsSection() {
-  const { theme } = useTheme();
+/**
+ * Company figures. Renders nothing until figures are published in Admin → Stats.
+ * (The previous figures — 150+ projects, 98%, 99.9% uptime, 40+ team — were unverified
+ * and contradicted other copy, so they were removed from the public UI.)
+ */
+export default function StatsSection({
+  stats = [],
+  title = 'Trusted by businesses worldwide',
+  description = 'Every project is a partnership built on delivery, quality, and measurable results.',
+}: StatsSectionProps) {
+  if (stats.length === 0) return null;
 
   return (
-    <section className="relative isolate overflow-hidden py-24 sm:py-32">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        alt=""
-        src={
-          theme === 'light'
-            ? 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2850&q=80&blend=111827&blend-mode=screen&sat=-100&exp=15'
-            : 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2850&q=80&blend=111827&blend-mode=multiply&sat=-100&exp=15'
-        }
-        className={`absolute inset-0 -z-10 size-full object-cover ${theme === 'light' ? 'opacity-10' : ''}`}
-      />
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <div
-          aria-hidden="true"
-          className="absolute -bottom-8 -left-96 -z-10 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
-        >
-          <div
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-            className={`aspect-1266/975 w-316.5 ${
-              theme === 'light'
-                ? 'bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-15'
-                : 'bg-gradient-to-tr from-primary/30 to-secondary/30 opacity-20'
-            }`}
-          />
-        </div>
-        <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
-          <h2 className="text-base/8 font-semibold text-primary">Our track record</h2>
-          <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-foreground sm:text-5xl">
-            Trusted by businesses worldwide
-          </p>
-          <p className="mt-6 text-lg/8 text-muted">
-            Our numbers speak for themselves. Every project is a partnership built on delivery, 
-            quality, and measurable results.
-          </p>
-        </div>
-        <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-8 text-foreground sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.id} className="flex flex-col gap-y-3 border-l border-edge pl-6">
-              <dt className="text-sm/6 text-muted">{stat.name}</dt>
-              <dd className="order-first text-3xl font-semibold tracking-tight">{stat.value}</dd>
-            </div>
+    <section aria-labelledby="stats-title" className="relative isolate overflow-hidden border-y border-edge bg-surface/60">
+      <div aria-hidden="true" className="absolute -left-32 top-0 -z-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+      <div aria-hidden="true" className="absolute -right-32 bottom-0 -z-10 h-72 w-72 rounded-full bg-secondary/10 blur-3xl" />
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+        <Reveal className="max-w-2xl">
+          <p className="eyebrow mb-5">Our track record</p>
+          <h2 id="stats-title" className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            {title}
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{description}</p>
+        </Reveal>
+        <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:mt-16 lg:grid-cols-4">
+          {stats.map((stat, i) => (
+            <Reveal key={stat.label} index={i} className="flex flex-col gap-y-2 border-l-2 border-primary/40 pl-5">
+              <dt className="text-sm text-muted">{stat.label}</dt>
+              <dd className="order-first text-3xl font-extrabold tracking-tight text-foreground tabular-nums sm:text-4xl">
+                {stat.value}
+              </dd>
+            </Reveal>
           ))}
         </dl>
       </div>

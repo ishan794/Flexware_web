@@ -3,167 +3,141 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../lib/theme-context';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { Menu, X, ArrowRight } from 'lucide-react';
+import ThemeMenu from './ThemeMenu';
+import Logo from './Logo';
+import { navLinks } from '../lib/site';
 
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/services', label: 'Services' },
-  { href: '/about', label: 'About' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/careers', label: 'Careers' },
-  { href: '/contact', label: 'Contact' },
-];
+function isActive(pathname: string, href: string) {
+  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
-  const { theme, toggle } = useTheme();
-
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => setIsScrolled(window.scrollY > 12);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    if (isMobileOpen) {
-      const timer = setTimeout(() => {
-        setIsMobileOpen(false);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [pathname, isMobileOpen]);
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = isMobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMobileOpen]);
+  const closeMenu = () => setIsMobileOpen(false);
 
   return (
     <header
       id="main-navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'glass-strong shadow-elevated'
-          : 'bg-transparent'
+      // Sticky (in normal flow) rather than fixed: no content offset hacks, and full-page
+      // screenshots/prints show the header at the top instead of mid-page.
+      className={`sticky top-0 z-50 border-b backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
+        isScrolled ? 'border-edge bg-background/85 shadow-elevated' : 'border-transparent bg-background/60'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
+      <nav aria-label="Main" className="container-page flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
         <Link
           href="/"
-          className="relative z-10 text-2xl font-extrabold tracking-tight gradient-text hover:opacity-80 transition-opacity"
+          className="-m-1.5 shrink-0 rounded-md p-1.5 transition-opacity hover:opacity-80"
+          aria-label="Flxware home"
         >
-          Flxware
+          <Logo priority />
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                pathname === link.href
-                  ? 'text-primary-light'
-                  : 'text-muted hover:text-foreground hover:bg-edge'
-              }`}
-            >
-              {link.label}
-              {pathname === link.href && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full" />
-              )}
-            </Link>
-          ))}
-        </div>
+        {/* Desktop navigation */}
+        <ul className="hidden items-center gap-0.5 rounded-full border border-edge bg-surface/70 p-1 md:flex">
+          {navLinks.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`relative flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-200 lg:px-4 ${
+                    active ? 'bg-surface-lighter text-foreground' : 'text-muted hover:text-foreground'
+                  }`}
+                >
+                  {active && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-secondary" />}
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <button
-            onClick={toggle}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-          <Link
-            href="/contact"
-            className="btn btn-primary btn-sm group"
-          >
-            Get Started
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeMenu />
+          <Link href="/contact" className="btn btn-primary btn-sm group hidden whitespace-nowrap lg:inline-flex">
+            Start a project
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
         </div>
 
-        {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-2 relative z-10">
+        {/* Mobile controls */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeMenu />
           <button
-            onClick={toggle}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-          <button
+            type="button"
             id="mobile-menu-toggle"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-            aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setIsMobileOpen(true)}
+            className="icon-btn"
+            aria-label="Open menu"
+            aria-expanded={isMobileOpen}
+            aria-controls="mobile-menu-drawer"
           >
-            {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed inset-0 bg-background/80 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
-          isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setIsMobileOpen(false)}
-      />
-
-      {/* Mobile Menu Drawer */}
-      <div
-        id="mobile-menu-drawer"
-        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] glass-strong md:hidden transition-transform duration-500 ease-out ${
-          isMobileOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex flex-col pt-24 px-6 gap-2">
-          {navLinks.map((link, i) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsMobileOpen(false)}
-              className={`px-4 py-3 text-base font-medium rounded-xl transition-all duration-300 ${
-                pathname === link.href
-                  ? 'text-primary-light bg-primary/10'
-                  : 'text-muted hover:text-foreground hover:bg-edge'
-              }`}
-              style={{ transitionDelay: isMobileOpen ? `${i * 50}ms` : '0ms' }}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          <div className="mt-4 pt-4 border-t border-edge flex items-center justify-center">
-            <Link
-              href="/contact"
-              onClick={() => setIsMobileOpen(false)}
-              className="btn btn-primary btn-sm w-full group"
-            >
-              Get Started
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+      {/* Mobile drawer: Headless UI handles focus trap, Escape, scroll lock and inert background */}
+      <Dialog open={isMobileOpen} onClose={closeMenu} className="relative z-[70] md:hidden">
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-background/70 backdrop-blur-sm transition-opacity duration-300 data-closed:opacity-0"
+        />
+        <DialogPanel
+          id="mobile-menu-drawer"
+          transition
+          className="glass-strong fixed inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col overflow-y-auto px-4 pb-8 transition-transform duration-300 ease-out data-closed:translate-x-full"
+        >
+          <div className="flex h-16 items-center justify-between px-2">
+            <DialogTitle>
+              <Logo className="h-6 w-auto" />
+              <span className="sr-only"> menu</span>
+            </DialogTitle>
+            <button type="button" onClick={closeMenu} className="icon-btn" aria-label="Close menu">
+              <X className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+          <ul className="mt-2 flex flex-col gap-1">
+            {navLinks.map((link) => {
+              const active = isActive(pathname, link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={closeMenu}
+                    aria-current={active ? 'page' : undefined}
+                    className={`flex min-h-12 items-center rounded-xl px-4 text-base font-medium transition-colors ${
+                      active ? 'bg-primary/10 text-primary-light' : 'text-muted hover:bg-surface-light hover:text-foreground'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="mt-6 border-t border-edge pt-6">
+            <Link href="/contact" onClick={closeMenu} className="btn btn-primary w-full group">
+              Start a project
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
           </div>
-        </div>
-      </div>
+        </DialogPanel>
+      </Dialog>
     </header>
   );
 }
