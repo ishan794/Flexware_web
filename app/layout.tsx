@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import ToastContainer from './components/Toast';
 import { ThemeProvider } from './lib/theme-context';
@@ -12,14 +12,6 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
-});
-
-// Geometric display face for headings — echoes the logo's squared letterforms
-const display = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['500', '600', '700'],
-  variable: '--font-space-grotesk',
 });
 
 export const metadata: Metadata = {
@@ -58,8 +50,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f5f7fb' },
-    { media: '(prefers-color-scheme: dark)', color: '#070d1a' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#050a18' },
   ],
 };
 
@@ -77,7 +69,7 @@ export default function RootLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
       data-theme="dark"
-      className={`${inter.variable} ${display.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
     >
       <head>
         {/* `async` silences React 19's inline-script warning; inline scripts still run synchronously */}

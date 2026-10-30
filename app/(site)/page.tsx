@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { ArrowRight, Atom, Server, Database, Cloud, Smartphone, Code2, Mail } from 'lucide-react';
-import Reveal from '@/app/components/Reveal';
+import { ArrowRight, ChevronRight, Atom, Server, Database, Cloud, Smartphone, Code2 } from 'lucide-react';
 import SectionHeading from '@/app/components/SectionHeading';
+import Reveal from '@/app/components/Reveal';
 import Banner from '@/app/components/sections/Banner';
 import HeroSection from '@/app/components/sections/HeroSection';
-import ServicesBento from '@/app/components/sections/ServicesBento';
 import FeaturesSection from '@/app/components/sections/FeaturesSection';
 import StatsSection from '@/app/components/sections/StatsSection';
 import LogoCloud from '@/app/components/sections/LogoCloud';
@@ -13,6 +12,7 @@ import TestimonialsSection from '@/app/components/sections/TestimonialsSection';
 import FaqSection from '@/app/components/sections/FaqSection';
 import ContactSection from '@/app/components/sections/ContactSection';
 import { processSteps } from '@/app/lib/site';
+import { getIcon, toneClasses, type ToneName } from '@/app/lib/icons';
 import { getContent, getPublished } from '@/app/lib/server/content';
 import { pageMetadata } from '@/app/lib/server/seo';
 
@@ -23,12 +23,11 @@ export const generateMetadata = () => pageMetadata('home');
 
 const technologies = [
   { name: 'React', icon: Atom },
-  { name: 'Next.js', icon: Code2 },
   { name: 'Node.js', icon: Server },
-  { name: 'TypeScript', icon: Code2 },
-  { name: 'Flutter', icon: Smartphone },
   { name: 'MongoDB', icon: Database },
   { name: 'AWS', icon: Cloud },
+  { name: 'Flutter', icon: Smartphone },
+  { name: 'TypeScript', icon: Code2 },
 ];
 
 export default async function HomePage() {
@@ -44,58 +43,73 @@ export default async function HomePage() {
   return (
     <>
       <Banner banner={settings.banner} />
-      <HeroSection hero={home.hero} capabilities={home.highlights} />
+      <HeroSection hero={home.hero} />
+      <LogoCloud logos={logos} />
 
-      {/* Technology stack: a compact band right under the hero */}
-      <section aria-labelledby="stack-title" className="border-y border-edge bg-surface/60">
-        <div className="container-page flex flex-col gap-5 py-7 lg:flex-row lg:items-center lg:gap-10">
-          <h2 id="stack-title" className="shrink-0 font-sans text-sm font-semibold uppercase tracking-wider text-subtle lg:w-48">
-            Built on a modern, proven stack
-          </h2>
-          <ul className="flex flex-wrap gap-x-7 gap-y-3">
-            {technologies.map((tech, i) => (
-              <Reveal as="li" key={tech.name} index={i} className="flex items-center gap-2 text-base font-medium text-muted">
-                <tech.icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                {tech.name}
+      {/* Services */}
+      <section id="services-preview" className="section-padding relative">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            label="What We Do"
+            title="Solutions That Drive Growth"
+            description="We combine cutting-edge technology with strategic thinking to deliver digital solutions that make a real impact."
+          />
+          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+            {home.highlights.map((service, i) => {
+              const Icon = getIcon(service.icon);
+              return (
+              <Reveal as="li" key={service.title} index={i} className="flex">
+                <Link
+                  href={service.href}
+                  className="group glass-card card-interactive gradient-border flex w-full flex-col rounded-2xl p-6 sm:p-7"
+                >
+                  <span className={`mb-5 inline-flex w-fit rounded-xl p-3 transition-transform duration-300 group-hover:scale-110 ${toneClasses[service.tone as ToneName] ?? toneClasses.primary}`}>
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <h3 className="mb-3 text-lg font-bold text-foreground sm:text-xl">{service.title}</h3>
+                  <p className="mb-6 flex-1 text-sm leading-relaxed text-muted">{service.description}</p>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-light">
+                    Learn more
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  </span>
+                </Link>
               </Reveal>
-            ))}
+              );
+            })}
           </ul>
         </div>
       </section>
 
-      <LogoCloud logos={logos} />
-      <ServicesBento items={home.highlights} />
       <FeaturesSection />
       <StatsSection stats={stats} />
 
-      {/* Process: connected timeline */}
-      <section id="process" aria-labelledby="process-title" className="section-padding">
-        <div className="mx-auto max-w-[76rem]">
+      {/* Process */}
+      <section id="process" className="section-padding relative">
+        <div className="mx-auto max-w-6xl">
           <SectionHeading
-            id="process-title"
-            label="How we work"
-            title="From vision to reality"
-            description="A clear, collaborative process keeps every project predictable — from the first conversation to long-term support."
+            label="How We Work"
+            title="From Vision to Reality"
+            description="Our proven process ensures every project is delivered on time, on budget, and beyond expectations."
           />
-          <ol className="relative grid gap-10 md:grid-cols-4 md:gap-6">
-            {/* Connector line */}
-            <span
-              aria-hidden="true"
-              className="absolute bottom-6 left-6 top-6 w-px bg-gradient-to-b from-secondary/60 via-edge-active to-transparent md:bottom-auto md:left-6 md:right-6 md:top-6 md:h-px md:w-auto md:bg-gradient-to-r"
-            />
+          <ol className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {processSteps.map((step, i) => (
-              <Reveal as="li" key={step.title} index={i} className="relative flex gap-5 md:block">
-                <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-edge-active bg-background font-display text-sm font-semibold text-foreground shadow-elevated">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div className="md:mt-6">
-                  <h3 className="text-h3 flex items-center gap-2 text-foreground">
-                    <span className="sr-only">Step {i + 1}: </span>
-                    <step.icon className="h-5 w-5 text-secondary" aria-hidden="true" />
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 max-w-xs text-[0.9375rem] leading-relaxed text-muted">{step.description}</p>
+              <Reveal as="li" key={step.title} index={i} className="relative flex flex-col items-center text-center">
+                <div className="relative mb-6">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/15 to-secondary/15 text-primary">
+                    <step.icon className="h-6 w-6" aria-hidden="true" />
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary-dark text-xs font-bold text-white"
+                  >
+                    {i + 1}
+                  </span>
                 </div>
+                <h3 className="mb-2 text-lg font-bold text-foreground">
+                  <span className="sr-only">Step {i + 1}: </span>
+                  {step.title}
+                </h3>
+                <p className="max-w-xs text-sm leading-relaxed text-muted">{step.description}</p>
               </Reveal>
             ))}
           </ol>
@@ -105,40 +119,51 @@ export default async function HomePage() {
       <TeamSection members={team} />
       <TestimonialsSection testimonials={testimonials} />
 
-      {/* CTA band — fixed brand navy in both themes */}
-      <section id="cta" aria-labelledby="cta-title" className="px-4 sm:px-6 lg:px-8">
-        <Reveal className="relative mx-auto max-w-[76rem] overflow-hidden rounded-[2rem] bg-[#0b1f3a] px-6 py-14 text-white sm:px-12 sm:py-16 lg:px-16">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-40"
-            style={{
-              backgroundImage:
-                'linear-gradient(rgba(184,232,192,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(184,232,192,0.08) 1px, transparent 1px)',
-              backgroundSize: '48px 48px',
-              maskImage: 'radial-gradient(ellipse 70% 90% at 85% 50%, #000, transparent)',
-              WebkitMaskImage: 'radial-gradient(ellipse 70% 90% at 85% 50%, #000, transparent)',
-            }}
+      {/* Technologies */}
+      <section id="technologies" className="section-padding relative">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeading
+            label="Tech Stack"
+            title="Technologies We Use"
+            description="We leverage cutting-edge technologies and frameworks to build robust, scalable solutions."
           />
-          <div aria-hidden="true" className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#b8e8c0]/20 blur-3xl" />
-          <div className="relative grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-            <div>
-              <h2 id="cta-title" className="text-h2 text-white">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {technologies.map((tech, i) => (
+              <Reveal as="li" key={tech.name} index={i}>
+                <div className="group glass-card flex aspect-square flex-col items-center justify-center gap-4 rounded-2xl p-4 hover:-translate-y-1 hover:border-primary/40 hover:shadow-glow">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-edge bg-gradient-to-br from-surface to-surface-lighter text-primary transition-transform duration-300 group-hover:scale-110">
+                    <tech.icon className="h-7 w-7" aria-hidden="true" />
+                  </span>
+                  <span className="text-sm font-semibold text-foreground sm:text-base">{tech.name}</span>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="cta" className="section-padding relative overflow-hidden">
+        <Reveal className="relative mx-auto max-w-4xl">
+          <div className="glass-card relative overflow-hidden rounded-3xl px-6 py-12 text-center sm:p-12 md:p-16">
+            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/5" />
+            <div aria-hidden="true" className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/10 blur-[80px]" />
+            <div aria-hidden="true" className="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-secondary/10 blur-[80px]" />
+
+            <div className="relative">
+              <h2 className="mb-5 text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
                 {home.cta.title}
               </h2>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#c9d6e8]">{home.cta.text}</p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row xl:justify-end">
-              <Link
-                href="/contact"
-                className="btn btn-lg group bg-[#b8e8c0] text-[#0a2240] shadow-[0_8px_30px_-8px_rgba(184,232,192,0.6)] hover:bg-[#cdf1d3]"
-              >
-                Get a free consultation
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </Link>
-              <a href={`mailto:${settings.email}`} className="btn btn-lg border border-white/25 text-white hover:border-white/50 hover:bg-white/10">
-                <Mail className="h-5 w-5" aria-hidden="true" />
-                Email us
-              </a>
+              <p className="mx-auto mb-10 max-w-xl text-base text-muted sm:text-lg">{home.cta.text}</p>
+              <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
+                <Link href="/contact" className="btn btn-primary btn-lg group">
+                  Get a Free Consultation
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </Link>
+                <Link href="/services" className="btn btn-outline btn-lg">
+                  Explore Services
+                </Link>
+              </div>
             </div>
           </div>
         </Reveal>

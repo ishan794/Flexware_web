@@ -3,7 +3,6 @@
 import { useRef, useState } from 'react';
 import { MapPin, Mail, Phone, Loader2, Send } from 'lucide-react';
 import Field, { describedBy } from '../forms/Field';
-import Reveal from '../Reveal';
 import { focusFirstError, submitContact, validateEmail, validateMessage } from '../../lib/contact';
 import type { SiteSettings } from '../../lib/cms/types';
 
@@ -86,60 +85,52 @@ export default function ContactSection({ settings: site }: { settings: SiteSetti
   );
 
   return (
-    <section id="contact-section" aria-labelledby="contact-section-title" className="section-padding">
-      <Reveal className="mx-auto grid max-w-[76rem] overflow-hidden rounded-[2rem] border border-edge bg-surface shadow-elevated-lg lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-        {/* Brand panel — fixed navy in both themes */}
-        <div className="relative overflow-hidden bg-[#0b1f3a] p-8 text-white sm:p-10 lg:p-12">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-50"
-            style={{
-              backgroundImage:
-                'linear-gradient(rgba(184,232,192,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(184,232,192,0.07) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
-              maskImage: 'linear-gradient(to bottom, #000, transparent 85%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, #000, transparent 85%)',
-            }}
-          />
-          <div className="relative flex h-full flex-col">
-            <p className="mb-4 inline-flex items-center gap-2 font-display text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-[#b8e8c0]">
-              <span aria-hidden="true" className="h-2 w-2 rounded-[2px] bg-[#b8e8c0]" />
-              Contact
-            </p>
-            <h2 id="contact-section-title" className="text-h2 text-white">
-              Let&apos;s build something together
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-[#c9d6e8] sm:text-lg">
-              Tell us about your idea. We reply to every message within 24 hours.
-            </p>
-            <ul className="mt-10 space-y-3">
-              <li>
-                <a href={`mailto:${site.email}`} className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-white/25 hover:bg-white/10">
-                  <Mail aria-hidden="true" className="h-5 w-5 shrink-0 text-[#b8e8c0]" />
-                  <span className="min-w-0">
-                    <span className="block text-xs text-[#9fb2cc]">Email</span>
-                    <span className="block truncate font-medium">{site.email}</span>
-                  </span>
+    <section id="contact-section" aria-labelledby="contact-section-title" className="relative isolate overflow-hidden">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-surface/60" />
+      <div
+        aria-hidden="true"
+        className="absolute -left-40 top-1/3 -z-10 h-80 w-80 rounded-full bg-primary/10 blur-3xl"
+      />
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 py-20 sm:px-6 sm:py-24 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-32">
+        <div className="max-w-xl">
+          <p className="eyebrow mb-5">Contact</p>
+          <h2 id="contact-section-title" className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            Get in touch
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">
+            Ready to start your next project? Reach out and let&apos;s discuss how we can bring your vision to life.
+          </p>
+          <dl className="mt-10 space-y-5 text-base text-muted">
+            <div className="flex items-center gap-x-4">
+              <dt>
+                <span className="sr-only">Locations</span>
+                <MapPin aria-hidden="true" className="h-6 w-6 text-primary" />
+              </dt>
+              <dd>{site.locations} — Remote-first studio</dd>
+            </div>
+            <div className="flex items-center gap-x-4">
+              <dt>
+                <span className="sr-only">Phone</span>
+                <Phone aria-hidden="true" className="h-6 w-6 text-primary" />
+              </dt>
+              <dd>
+                <a href={site.phoneHref} className="link-underline transition-colors hover:text-foreground">
+                  {site.phone}
                 </a>
-              </li>
-              <li>
-                <a href={site.phoneHref} className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-white/25 hover:bg-white/10">
-                  <Phone aria-hidden="true" className="h-5 w-5 shrink-0 text-[#b8e8c0]" />
-                  <span>
-                    <span className="block text-xs text-[#9fb2cc]">Phone</span>
-                    <span className="block font-medium">{site.phone}</span>
-                  </span>
+              </dd>
+            </div>
+            <div className="flex items-center gap-x-4">
+              <dt>
+                <span className="sr-only">Email</span>
+                <Mail aria-hidden="true" className="h-6 w-6 text-primary" />
+              </dt>
+              <dd>
+                <a href={`mailto:${site.email}`} className="link-underline break-all transition-colors hover:text-foreground">
+                  {site.email}
                 </a>
-              </li>
-              <li className="flex items-center gap-4 rounded-2xl border border-white/10 p-4">
-                <MapPin aria-hidden="true" className="h-5 w-5 shrink-0 text-[#b8e8c0]" />
-                <span>
-                  <span className="block text-xs text-[#9fb2cc]">Locations</span>
-                  <span className="block font-medium">{site.locations} · Remote-first</span>
-                </span>
-              </li>
-            </ul>
-          </div>
+              </dd>
+            </div>
+          </dl>
         </div>
 
         <form
@@ -148,22 +139,28 @@ export default function ContactSection({ settings: site }: { settings: SiteSetti
           noValidate
           aria-busy={submitting}
           aria-labelledby="contact-section-title"
-          className="p-6 sm:p-10 lg:p-12"
+          className="glass-card rounded-3xl p-6 shadow-elevated-lg sm:p-10"
         >
-          <div className="grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
             {textField('firstName', 'First name', 'text', 'given-name')}
             {textField('lastName', 'Last name', 'text', 'family-name')}
-            {textField('email', 'Email', 'email', 'email')}
-            <Field id="phone-number" label="Phone number">
-              <input id="phone-number" name="phone" type="tel" autoComplete="tel" inputMode="tel" className="field-input" />
+            {textField('email', 'Email', 'email', 'email', true)}
+            <Field id="phone-number" label="Phone number" className="sm:col-span-2">
+              <input
+                id="phone-number"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                inputMode="tel"
+                className="field-input"
+              />
             </Field>
             <Field id={ids.message} label="Message" required error={errors.message} className="sm:col-span-2">
               <textarea
                 id={ids.message}
                 name="message"
-                rows={5}
+                rows={4}
                 onChange={onFieldChange}
-                placeholder="What are you building, and what does success look like?"
                 aria-invalid={!!errors.message}
                 aria-describedby={describedBy(ids.message, { error: errors.message })}
                 required
@@ -171,18 +168,18 @@ export default function ContactSection({ settings: site }: { settings: SiteSetti
               />
             </Field>
           </div>
-          <div className="mt-8 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-subtle">
-              Fields marked <span className="text-error" aria-hidden="true">*</span>
-              <span className="sr-only">with an asterisk</span> are required.
-            </p>
-            <button type="submit" disabled={submitting} className="btn btn-primary btn-lg w-full sm:w-auto">
-              {submitting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
+          <div className="mt-8 flex justify-end">
+            <button type="submit" disabled={submitting} className="btn btn-primary w-full sm:w-auto">
+              {submitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Send className="h-4 w-4" aria-hidden="true" />
+              )}
               {submitting ? 'Sending…' : 'Send message'}
             </button>
           </div>
         </form>
-      </Reveal>
+      </div>
     </section>
   );
 }

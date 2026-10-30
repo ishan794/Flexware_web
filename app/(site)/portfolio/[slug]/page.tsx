@@ -27,7 +27,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary-light">
             {project.type} · {project.year}
           </p>
-          <h1 className="text-display mb-5 text-foreground">{project.title}</h1>
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">{project.title}</h1>
           <p className="max-w-2xl text-lg leading-relaxed text-muted">{project.tagline}</p>
           <ul className="mt-6 flex flex-wrap gap-2" aria-label="Technologies">
             {project.tech.map((t) => (

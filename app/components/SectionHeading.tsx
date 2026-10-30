@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import Reveal from './Reveal';
 
 interface SectionHeadingProps {
@@ -9,37 +8,33 @@ interface SectionHeadingProps {
   className?: string;
   /** Use "h1" when the heading is the page title */
   as?: 'h1' | 'h2';
-  id?: string;
-  /** Optional element shown beside the heading on wide screens (e.g. a link) */
-  action?: ReactNode;
 }
 
 export default function SectionHeading({
   label,
   title,
   description,
-  align = 'left',
+  align = 'center',
   className = '',
   as: Heading = 'h2',
-  id,
-  action,
 }: SectionHeadingProps) {
   const centered = align === 'center';
 
   return (
-    <Reveal
-      className={`mb-10 sm:mb-14 ${
-        centered ? 'mx-auto max-w-3xl text-center' : action ? 'flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between' : 'max-w-3xl'
-      } ${className}`}
-    >
-      <div className={action ? 'max-w-2xl' : undefined}>
-        {label && <p className="eyebrow mb-4">{label}</p>}
-        <Heading id={id} className={`${Heading === 'h1' ? 'text-display' : 'text-h2'} text-foreground`}>
-          {title}
-        </Heading>
-        {description && <p className={`text-lead mt-5 ${centered ? 'mx-auto max-w-2xl' : 'max-w-2xl'}`}>{description}</p>}
-      </div>
-      {action && <div className="shrink-0">{action}</div>}
+    <Reveal className={`mb-12 sm:mb-16 ${centered ? 'mx-auto max-w-3xl text-center' : 'max-w-2xl'} ${className}`}>
+      {label && <p className="eyebrow mb-5">{label}</p>}
+      <Heading
+        className={`font-extrabold tracking-tight text-foreground ${
+          Heading === 'h1' ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-3xl sm:text-4xl lg:text-5xl'
+        }`}
+      >
+        {title}
+      </Heading>
+      {description && (
+        <p className={`mt-5 text-base leading-relaxed text-muted sm:text-lg ${centered ? 'mx-auto max-w-2xl' : ''}`}>
+          {description}
+        </p>
+      )}
     </Reveal>
   );
 }

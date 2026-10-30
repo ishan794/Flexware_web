@@ -85,7 +85,7 @@ const verifiedMetrics: [value: string, label: string][] = [];
 export default function DarkAutomationLanding({ testimonials = [] }: { testimonials?: Testimonial[] }) {
 
   return (
-    <div data-theme="dark" className="min-h-screen bg-black text-white">
+    <div data-theme="dark" className="-mt-20 min-h-screen bg-black text-white">
       <LandingChromeReset />
       <LandingNav
         mode="dark"

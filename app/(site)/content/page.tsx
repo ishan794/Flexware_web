@@ -4,11 +4,13 @@ import { ArrowRight, CloudUpload, Lock, Server } from 'lucide-react'
 import Reveal from '@/app/components/Reveal'
 
 // Copy here only restates capabilities already described on the home and services pages.
-// Linked from the homepage infrastructure section ("How we deliver").
+// The page is not linked from navigation; it stays out of search results to avoid
+// duplicating the home page. Remove `robots` if it gets a place in the site structure.
 export const metadata: Metadata = {
-  title: 'How we deliver',
+  title: 'A better workflow',
   description:
     'How Flxware ships software: automated deployments, secure defaults, and reliable data protection built into every project.',
+  robots: { index: false, follow: true },
 }
 
 const practices = [
@@ -48,7 +50,7 @@ export default function WorkflowPage() {
           <div className="mx-auto max-w-2xl pb-20 pt-14 sm:pb-28 sm:pt-20 lg:ml-8 lg:mr-0 lg:w-full lg:max-w-lg lg:flex-none lg:pt-28 xl:w-1/2">
             <Reveal>
               <p className="eyebrow">Deploy faster</p>
-              <h1 className="text-display mt-5 text-foreground">A better workflow</h1>
+              <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">A better workflow</h1>
               <p className="mt-6 text-lg leading-8 text-muted sm:text-xl">
                 Great software depends on how it is delivered as much as how it is designed. We bring a dependable
                 delivery process to every engagement, so your team can focus on the product instead of the plumbing.

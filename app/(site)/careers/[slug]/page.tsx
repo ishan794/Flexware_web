@@ -38,7 +38,7 @@ export default async function JobPage({ params }: { params: Promise<{ slug: stri
             </li>
             <li className="rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary-light">{job.dept}</li>
           </ul>
-          <h1 className="text-display text-foreground">{job.title}</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground md:text-5xl">{job.title}</h1>
         </header>
 
         <Reveal as="section" className="glass-card mb-6 rounded-2xl p-6 sm:p-8">

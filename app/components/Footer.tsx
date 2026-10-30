@@ -23,11 +23,11 @@ export default async function Footer({ settings: site }: { settings: SiteSetting
     <footer id="main-footer" className="relative border-t border-edge bg-surface">
       <div
         aria-hidden="true"
-        className="absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-secondary/60 to-transparent"
+        className="absolute left-1/2 top-0 h-px w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
       />
 
-      <div className="container-page pb-8 pt-14 sm:pt-16">
-        <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mb-14 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-12">
+      <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6 sm:pt-16 lg:px-8">
+        <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mb-16 lg:grid-cols-4 lg:gap-12">
           {/* Brand + contact */}
           <div>
             <Link href="/" aria-label="Flxware home" className="inline-block rounded-md transition-opacity hover:opacity-80">
@@ -59,7 +59,7 @@ export default async function Footer({ settings: site }: { settings: SiteSetting
 
           {footerSections.map((section) => (
             <nav key={section.title} aria-label={section.title}>
-              <h2 className="mb-4 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-subtle">{section.title}</h2>
+              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">{section.title}</h2>
               <ul className="space-y-1">
                 {section.links.map((link) => (
                   <li key={link.label}>
@@ -81,7 +81,7 @@ export default async function Footer({ settings: site }: { settings: SiteSetting
 
           {/* Project CTA */}
           <div>
-            <h2 className="mb-4 font-sans text-xs font-semibold uppercase tracking-[0.12em] text-subtle">Start a project</h2>
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">Start a project</h2>
             <p className="mb-5 text-sm leading-relaxed text-muted">
               Tell us about your idea and we&apos;ll get back to you within 24 hours.
             </p>

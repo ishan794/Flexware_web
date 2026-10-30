@@ -30,13 +30,11 @@ export default function Navbar() {
   return (
     <header
       id="main-navbar"
-      // Sticky (in normal flow) rather than fixed: no content offset hacks, and full-page
-      // screenshots/prints show the header at the top instead of mid-page.
-      className={`sticky top-0 z-50 border-b backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
-        isScrolled ? 'border-edge bg-background/85 shadow-elevated' : 'border-transparent bg-background/60'
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+        isScrolled ? 'glass-strong border-edge shadow-elevated' : 'border-transparent bg-transparent'
       }`}
     >
-      <nav aria-label="Main" className="container-page flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
+      <nav aria-label="Main" className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="-m-1.5 shrink-0 rounded-md p-1.5 transition-opacity hover:opacity-80"
@@ -46,7 +44,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop navigation */}
-        <ul className="hidden items-center gap-0.5 rounded-full border border-edge bg-surface/70 p-1 md:flex">
+        <ul className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -54,12 +52,17 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
-                  className={`relative flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-200 lg:px-4 ${
-                    active ? 'bg-surface-lighter text-foreground' : 'text-muted hover:text-foreground'
+                  className={`relative block rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 lg:px-4 ${
+                    active ? 'text-foreground' : 'text-muted hover:bg-surface-light hover:text-foreground'
                   }`}
                 >
-                  {active && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-secondary" />}
                   {link.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-to-r from-primary to-secondary transition-transform duration-300 lg:inset-x-4 ${
+                      active ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
                 </Link>
               </li>
             );
@@ -69,7 +72,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-2 md:flex">
           <ThemeMenu />
           <Link href="/contact" className="btn btn-primary btn-sm group hidden whitespace-nowrap lg:inline-flex">
-            Start a project
+            Get Started
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
         </div>
@@ -132,7 +135,7 @@ export default function Navbar() {
           </ul>
           <div className="mt-6 border-t border-edge pt-6">
             <Link href="/contact" onClick={closeMenu} className="btn btn-primary w-full group">
-              Start a project
+              Get Started
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
           </div>

@@ -15,7 +15,7 @@ export default async function SiteChrome({ children }: { children: ReactNode }) 
         Skip to main content
       </a>
       <Navbar />
-      <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+      <main id="main-content" tabIndex={-1} className="flex-1 pt-16 focus:outline-none sm:pt-20">
         {children}
       </main>
       <Footer settings={settings} />
