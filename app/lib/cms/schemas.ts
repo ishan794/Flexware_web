@@ -136,6 +136,7 @@ export const collectionSchemas = {
     role: required(120, 'Role'),
     imageUrl: link,
     linkedinUrl: link,
+    xUrl: link,
   }),
   stats: z.object({
     ...base,

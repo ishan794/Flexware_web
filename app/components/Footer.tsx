@@ -5,10 +5,10 @@ import type { SiteSettings } from '../lib/cms/types';
 import { getPublished } from '../lib/server/content';
 
 const companyLinks = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'About Us', href: '/#about' },
+  { label: 'Portfolio', href: '/#portfolio' },
   { label: 'Careers', href: '/careers' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export default async function Footer({ settings: site }: { settings: SiteSettings }) {
@@ -30,7 +30,7 @@ export default async function Footer({ settings: site }: { settings: SiteSetting
         <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mb-16 lg:grid-cols-4 lg:gap-12">
           {/* Brand + contact */}
           <div>
-            <Link href="/" aria-label="Flxware home" className="inline-block rounded-md transition-opacity hover:opacity-80">
+            <Link href="/#home" aria-label="Flxware home" className="inline-block rounded-md transition-opacity hover:opacity-80">
               <Logo className="h-7 w-auto" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
@@ -85,7 +85,7 @@ export default async function Footer({ settings: site }: { settings: SiteSetting
             <p className="mb-5 text-sm leading-relaxed text-muted">
               Tell us about your idea and we&apos;ll get back to you within 24 hours.
             </p>
-            <Link href="/contact" className="btn btn-primary btn-sm group">
+            <Link href="/#contact" className="btn btn-primary btn-sm group">
               Get in touch
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>

@@ -9,23 +9,52 @@ import ThemeMenu from './ThemeMenu';
 import Logo from './Logo';
 import { navLinks } from '../lib/site';
 
-function isActive(pathname: string, href: string) {
-  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
-}
-
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 12);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+
+      if (isHomePage) {
+        const sections = ['contact', 'portfolio', 'about', 'services', 'home'];
+        for (const sec of sections) {
+          const el = document.getElementById(sec);
+          if (el) {
+            const top = el.getBoundingClientRect().top;
+            if (top <= 200) {
+              setActiveSection(sec);
+              break;
+            }
+          }
+        }
+      }
+    };
+
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   const closeMenu = () => setIsMobileOpen(false);
+
+  const isLinkActive = (href: string) => {
+    if (href === '/careers') {
+      return pathname.startsWith('/careers');
+    }
+    if (isHomePage) {
+      if (href === '/#home') return activeSection === 'home';
+      if (href === '/#services') return activeSection === 'services';
+      if (href === '/#about') return activeSection === 'about';
+      if (href === '/#portfolio') return activeSection === 'portfolio';
+      if (href === '/#contact') return activeSection === 'contact';
+    }
+    return false;
+  };
 
   return (
     <header
@@ -36,7 +65,7 @@ export default function Navbar() {
     >
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link
-          href="/"
+          href="/#home"
           className="-m-1.5 shrink-0 rounded-md p-1.5 transition-opacity hover:opacity-80"
           aria-label="Flxware home"
         >
@@ -46,7 +75,7 @@ export default function Navbar() {
         {/* Desktop navigation */}
         <ul className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
-            const active = isActive(pathname, link.href);
+            const active = isLinkActive(link.href);
             return (
               <li key={link.href}>
                 <Link
@@ -71,7 +100,7 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-2 md:flex">
           <ThemeMenu />
-          <Link href="/contact" className="btn btn-primary btn-sm group hidden whitespace-nowrap lg:inline-flex">
+          <Link href="/#contact" className="btn btn-primary btn-sm group hidden whitespace-nowrap lg:inline-flex">
             Get Started
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
@@ -116,7 +145,7 @@ export default function Navbar() {
           </div>
           <ul className="mt-2 flex flex-col gap-1">
             {navLinks.map((link) => {
-              const active = isActive(pathname, link.href);
+              const active = isLinkActive(link.href);
               return (
                 <li key={link.href}>
                   <Link
@@ -134,7 +163,7 @@ export default function Navbar() {
             })}
           </ul>
           <div className="mt-6 border-t border-edge pt-6">
-            <Link href="/contact" onClick={closeMenu} className="btn btn-primary w-full group">
+            <Link href="/#contact" onClick={closeMenu} className="btn btn-primary w-full group">
               Get Started
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>

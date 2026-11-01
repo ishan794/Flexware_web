@@ -26,6 +26,7 @@ export interface TeamMember {
   role: string;
   imageUrl?: string | null;
   linkedinUrl?: string | null;
+  xUrl?: string | null;
 }
 
 export interface CompanyStat {

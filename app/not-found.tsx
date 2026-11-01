@@ -23,7 +23,7 @@ export default function NotFound() {
           <Link href="/" className="btn btn-primary">
             <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to home
           </Link>
-          <Link href="/contact" className="btn btn-outline">
+          <Link href="/#contact" className="btn btn-outline">
             <Mail className="h-4 w-4" aria-hidden="true" /> Contact us
           </Link>
         </div>
@@ -31,7 +31,7 @@ export default function NotFound() {
           <p className="mb-4 text-sm font-medium text-subtle">Or try one of these pages</p>
           <ul className="flex flex-wrap justify-center gap-2">
             {navLinks
-              .filter((l) => l.href !== '/')
+              .filter((l) => l.href !== '/#home')
               .map((l) => (
                 <li key={l.href}>
                   <Link

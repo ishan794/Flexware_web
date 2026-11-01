@@ -1,76 +1,95 @@
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import OpenAssistantButton from '../ai-assistant/OpenAssistantButton';
-import type { HomepageContent } from '../../lib/cms/types';
-import { defaultContent } from '../../lib/cms/defaults';
+"use client";
 
-const blobClip =
-  'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)';
+import { motion, useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
+import { BackgroundCubesGrid } from "@/components/ui/background-cubes-grid";
+import { useTheme } from "@/app/lib/theme-context";
 
-/** Homepage hero; copy is edited in Admin → Homepage */
-export default function HeroSection({ hero = defaultContent.homepage.hero }: { hero?: HomepageContent['hero'] }) {
+const EASE_OUT = [0.215, 0.61, 0.355, 1] as const;
+
+function HeroContent() {
+  const reduceMotion = useReducedMotion();
+
+  const fadeUp = (delay: number) => ({
+    initial: reduceMotion ? false : { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, ease: EASE_OUT, delay },
+  });
+
   return (
-    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden">
-      {/* One image for both themes; the overlay tint adapts via theme tokens (no theme-dependent src, no hydration mismatch) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        alt=""
-        src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=2000&q=70&sat=-100"
-        fetchPriority="high"
-        decoding="async"
-        className="absolute inset-0 -z-20 size-full object-cover opacity-40 dark:opacity-60"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/80 via-background/85 to-background"
-      />
-      <div aria-hidden="true" className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-        <div
-          style={{ clipPath: blobClip }}
-          className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-gradient-to-tr from-primary/40 to-secondary/40 opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
-        />
-      </div>
+    <div className="pointer-events-none mx-auto flex max-w-[1080px] flex-col items-center text-center antialiased">
+      <motion.div
+        {...fadeUp(0.1)}
+        className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 ring-1 ring-indigo-500/20 dark:text-indigo-400 dark:bg-indigo-950/70 dark:ring-indigo-500/30"
+      >
+        <span>Innovative Software Development</span>
+      </motion.div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl py-20 text-center sm:py-28 lg:py-36">
-          {hero.badge && (
-          <div className="mb-8 flex justify-center animate-fade-up">
-            <p className="relative flex flex-wrap items-center justify-center gap-x-1.5 rounded-full px-4 py-1.5 text-sm text-muted ring-1 ring-edge transition-colors hover:ring-edge-hover">
-              {hero.badge}
-              <OpenAssistantButton className="font-semibold text-primary-light hover:text-foreground">
-                <span aria-hidden="true" className="absolute inset-0 rounded-full" />
-                Try it now <span aria-hidden="true">&rarr;</span>
-              </OpenAssistantButton>
-            </p>
-          </div>
-          )}
-          <h1
-            id="hero-title"
-            className="text-4xl font-extrabold tracking-tight text-foreground animate-fade-up sm:text-6xl lg:text-7xl"
-            style={{ animationDelay: '80ms' }}
-          >
-            {hero.title}
-          </h1>
-          <p
-            className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted animate-fade-up sm:mt-8 sm:text-xl"
-            style={{ animationDelay: '160ms' }}
-          >
-            {hero.subtitle}
-          </p>
-          <div
-            className="mt-10 flex flex-col items-stretch justify-center gap-3 animate-fade-up sm:flex-row sm:items-center sm:gap-4"
-            style={{ animationDelay: '240ms' }}
-          >
-            <Link href="/contact" className="btn btn-primary btn-lg group">
-              {hero.primaryCtaLabel}
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-            </Link>
-            <Link href="/services" className="btn btn-outline btn-lg">
-              {hero.secondaryCtaLabel}
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+      <motion.h1
+        {...fadeUp(0.25)}
+        className="max-w-[22ch] text-[clamp(34px,5vw,64px)] leading-[1.2] font-extrabold tracking-[-0.03em] text-balance text-gray-900 dark:text-white"
+      >
+        Building Tomorrow&apos;s Software Solutions
+      </motion.h1>
+
+      <motion.p
+        {...fadeUp(0.4)}
+        className="mt-6 max-w-[650px] text-[clamp(17px,1.5vw,20px)] leading-[1.6] text-pretty text-gray-600 dark:text-gray-300"
+      >
+        We&apos;re a passionate team of developers creating innovative software that transforms businesses and empowers growth.
+      </motion.p>
+
+      <motion.div
+        {...fadeUp(0.55)}
+        className="pointer-events-auto mt-9 flex flex-col items-center gap-3 sm:flex-row"
+      >
+        <a
+          href="#portfolio"
+          className="inline-flex h-12 items-center rounded-xl px-7 text-[15px] font-semibold transition-all duration-300 hover:scale-105 active:scale-95 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 hover:bg-indigo-500"
+        >
+          View Our Work
+        </a>
+        <a
+          href="#contact"
+          className="inline-flex h-12 items-center rounded-xl px-7 text-[15px] font-semibold transition-all duration-300 hover:scale-105 active:scale-95 text-gray-900 border border-gray-300 bg-white/70 hover:bg-white hover:border-gray-400 backdrop-blur-sm dark:text-white dark:border-white/20 dark:bg-transparent dark:hover:bg-white/10 dark:hover:border-white/30"
+        >
+          Get Started
+        </a>
+      </motion.div>
+
+      <motion.p {...fadeUp(0.7)} className="mt-6 text-[13px] text-gray-500 dark:text-gray-400">
+        Web · Mobile · Cloud · Enterprise Solutions
+      </motion.p>
+    </div>
   );
+}
+
+export function BackgroundCubesGridDemo() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  return (
+    <div
+      id="home"
+      suppressHydrationWarning
+      className="relative isolate flex min-h-[50rem] w-full items-center justify-center overflow-hidden px-5 py-24 sm:px-8 bg-slate-50 dark:bg-[#0b0f19] transition-colors duration-300"
+    >
+      <BackgroundCubesGrid
+        key={theme}
+        className="-z-10"
+        topColor={isDark ? "#0f172a" : "#f8fafc"}
+        leftColor={isDark ? "#090d16" : "#e2e8f0"}
+        rightColor={isDark ? "#05070c" : "#cbd5e1"}
+        glowColor={isDark ? "#6366f1" : "#6366f1"}
+        glow={isDark ? 0.85 : 0.75}
+        cellSize={140}
+        amplitude={0.75}
+      />
+      <HeroContent />
+    </div>
+  );
+}
+
+export default function HeroSection({ hero: _hero }: { hero?: any } = {}) {
+  return <BackgroundCubesGridDemo />;
 }

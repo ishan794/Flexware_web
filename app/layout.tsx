@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import ToastContainer from './components/Toast';
+import ServiceWorkerCleanup from './components/ServiceWorkerCleanup';
 import { ThemeProvider } from './lib/theme-context';
 import { defaultContent } from './lib/cms/defaults';
 
@@ -76,6 +77,7 @@ export default function RootLayout({
         <script id="theme-initializer" async dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
+        <ServiceWorkerCleanup />
         {/* Shared by the public site (app/(site)) and the admin panel (app/admin) */}
         <ThemeProvider>
           {children}

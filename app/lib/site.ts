@@ -4,12 +4,12 @@ import { HeartHandshake, Shield, Sparkles, Zap, type LucideIcon } from 'lucide-r
 // homepage copy, …) lives in the CMS — see app/lib/cms and /admin.
 
 export const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/services', label: 'Services' },
-  { href: '/about', label: 'About' },
-  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/#home', label: 'Home' },
+  { href: '/#services', label: 'Services' },
+  { href: '/#about', label: 'About' },
+  { href: '/#portfolio', label: 'Portfolio' },
   { href: '/careers', label: 'Careers' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/#contact', label: 'Contact' },
 ] as const;
 
 export const processSteps: { icon: LucideIcon; title: string; description: string }[] = [
