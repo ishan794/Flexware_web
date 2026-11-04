@@ -1,20 +1,27 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import ToastContainer from './components/Toast';
-import AiAssistant from './components/ai-assistant';
+import ServiceWorkerCleanup from './components/ServiceWorkerCleanup';
 import { ThemeProvider } from './lib/theme-context';
+import { defaultContent } from './lib/cms/defaults';
 
+// Brand-level defaults; per-page titles/descriptions come from Admin → SEO.
+const site = defaultContent.settings;
 
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: {
-    default: 'Flxware — Digital Innovation Studio',
-    template: '%s | Flxware',
+    default: `${site.name} — ${site.tagline}`,
+    template: `%s | ${site.name}`,
   },
-  description:
-    'Flxware crafts cutting-edge web applications, mobile solutions, and AI-powered systems that transform businesses. Your vision, our technology.',
+  description: site.description,
+  applicationName: site.name,
   keywords: [
     'web development',
     'mobile apps',
@@ -23,20 +30,34 @@ export const metadata: Metadata = {
     'software development',
     'Flxware',
   ],
-  authors: [{ name: 'Flxware' }],
+  authors: [{ name: site.name }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Flxware',
-    title: 'Flxware — Digital Innovation Studio',
-    description:
-      'Crafting cutting-edge digital experiences with modern technology.',
+    siteName: site.name,
+    title: `${site.name} — ${site.tagline}`,
+    description: 'Crafting cutting-edge digital experiences with modern technology.',
+  },
+  twitter: {
+    card: 'summary',
+    title: `${site.name} — ${site.tagline}`,
+    description: 'Crafting cutting-edge digital experiences with modern technology.',
   },
   robots: {
     index: true,
     follow: true,
   },
 };
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#050a18' },
+  ],
+};
+
+// Runs before first paint so the stored/system theme never flashes the wrong colors.
+const themeScript = `(function(){try{var p=localStorage.getItem('theme');if(p!=='light'&&p!=='dark')p=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';var d=document.documentElement;d.setAttribute('data-theme',p);d.style.colorScheme=p;}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -48,33 +69,19 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className="h-full antialiased"
+      data-theme="dark"
+      className={`${inter.variable} h-full antialiased`}
     >
       <head>
-        <script
-          id="theme-initializer"
-          async
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var storedTheme = localStorage.getItem('theme');
-                  var theme = storedTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-                  document.documentElement.setAttribute('data-theme', theme);
-                  document.documentElement.style.colorScheme = theme;
-                } catch (e) {}
-              })();
-            `
-          }}
-        />
+        {/* `async` silences React 19's inline-script warning; inline scripts still run synchronously */}
+        <script id="theme-initializer" async dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
+        <ServiceWorkerCleanup />
+        {/* Shared by the public site (app/(site)) and the admin panel (app/admin) */}
         <ThemeProvider>
-          <Navbar />
-          <main className="flex-1 pt-20">{children}</main>
-          <Footer />
+          {children}
           <ToastContainer />
-          <AiAssistant />
         </ThemeProvider>
       </body>
     </html>

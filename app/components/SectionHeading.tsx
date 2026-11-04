@@ -1,6 +1,4 @@
-'use client';
-
-import { useScrollAnimation } from '@/app/lib/animations';
+import Reveal from './Reveal';
 
 interface SectionHeadingProps {
   label?: string;
@@ -8,6 +6,8 @@ interface SectionHeadingProps {
   description?: string;
   align?: 'left' | 'center';
   className?: string;
+  /** Use "h1" when the heading is the page title */
+  as?: 'h1' | 'h2';
 }
 
 export default function SectionHeading({
@@ -16,30 +16,25 @@ export default function SectionHeading({
   description,
   align = 'center',
   className = '',
+  as: Heading = 'h2',
 }: SectionHeadingProps) {
-  const { ref, isVisible } = useScrollAnimation();
+  const centered = align === 'center';
 
   return (
-    <div
-      ref={ref}
-      className={`mb-16 ${align === 'center' ? 'text-center mx-auto' : ''} ${
-        isVisible ? 'animate-fade-up' : 'opacity-0'
-      } ${className}`}
-      style={{ maxWidth: align === 'center' ? '48rem' : undefined }}
-    >
-      {label && (
-        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-primary-light border border-primary/20 bg-primary/5 mb-6">
-          {label}
-        </span>
-      )}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-balance">
+    <Reveal className={`mb-12 sm:mb-16 ${centered ? 'mx-auto max-w-3xl text-center' : 'max-w-2xl'} ${className}`}>
+      {label && <p className="eyebrow mb-5">{label}</p>}
+      <Heading
+        className={`font-extrabold tracking-tight text-foreground ${
+          Heading === 'h1' ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-3xl sm:text-4xl lg:text-5xl'
+        }`}
+      >
         {title}
-      </h2>
+      </Heading>
       {description && (
-        <p className="mt-4 text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+        <p className={`mt-5 text-base leading-relaxed text-muted sm:text-lg ${centered ? 'mx-auto max-w-2xl' : ''}`}>
           {description}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 }

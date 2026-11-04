@@ -6,6 +6,11 @@ const createJestConfig = nextJest({ dir: './' });
 const config: Config = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleNameMapper: {
+    // Next.js resolves this marker at build time; Jest needs a stub
+    '^server-only$': '<rootDir>/test/stubs/empty.js',
+    '^@/(.*)$': '<rootDir>/$1',
+  },
 };
 
 export default createJestConfig(config);

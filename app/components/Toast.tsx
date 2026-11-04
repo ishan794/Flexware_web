@@ -13,11 +13,11 @@ interface ToastItem {
   duration?: number;
 }
 
-const toastConfig: Record<ToastType, { icon: typeof CheckCircle; color: string; bg: string }> = {
-  success: { icon: CheckCircle, color: 'text-emerald', bg: 'bg-emerald/10' },
-  error: { icon: AlertCircle, color: 'text-error', bg: 'bg-error/10' },
-  info: { icon: Info, color: 'text-info', bg: 'bg-info/10' },
-  warning: { icon: AlertTriangle, color: 'text-warning', bg: 'bg-warning/10' },
+const toastConfig: Record<ToastType, { icon: typeof CheckCircle; color: string; bg: string; accent: string }> = {
+  success: { icon: CheckCircle, color: 'text-success', bg: 'bg-success/10', accent: 'border-l-success' },
+  error: { icon: AlertCircle, color: 'text-error', bg: 'bg-error/10', accent: 'border-l-error' },
+  info: { icon: Info, color: 'text-info', bg: 'bg-info/10', accent: 'border-l-info' },
+  warning: { icon: AlertTriangle, color: 'text-warning', bg: 'bg-warning/10', accent: 'border-l-warning' },
 };
 
 // Global toast event system
@@ -33,31 +33,34 @@ export function showToast(toast: Omit<ToastItem, 'id'>) {
 export default function ToastContainer() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  const addToast = useCallback((toast: Omit<ToastItem, 'id'>) => {
-    const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const newToast = { ...toast, id };
-    setToasts((prev) => [...prev, newToast]);
-
-    // Auto-dismiss
-    const duration = toast.duration ?? 5000;
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, duration);
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
+
+  const addToast = useCallback(
+    (toast: Omit<ToastItem, 'id'>) => {
+      const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+      setToasts((prev) => [...prev, { ...toast, id }]);
+      // Errors stay longer so they can be read and acted on
+      const duration = toast.duration ?? (toast.type === 'error' ? 9000 : 6000);
+      setTimeout(() => removeToast(id), duration);
+    },
+    [removeToast]
+  );
 
   useEffect(() => {
     addToastHandler = addToast;
-    return () => { addToastHandler = null; };
+    return () => {
+      addToastHandler = null;
+    };
   }, [addToast]);
-
-  const removeToast = (id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  };
 
   return (
     <div
       id="toast-container"
-      className="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 max-w-sm"
+      aria-live="polite"
+      aria-relevant="additions"
+      className="pointer-events-none fixed inset-x-4 top-20 z-[100] flex flex-col items-end gap-3 sm:left-auto sm:right-6 sm:top-24 sm:w-96"
     >
       {toasts.map((toast) => {
         const config = toastConfig[toast.type];
@@ -66,25 +69,25 @@ export default function ToastContainer() {
         return (
           <div
             key={toast.id}
-            className="glass-strong rounded-xl p-4 shadow-elevated-lg"
-            style={{ animation: 'slide-in-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}
+            role={toast.type === 'error' ? 'alert' : 'status'}
+            className={`glass-strong pointer-events-auto w-full rounded-xl border-l-4 p-4 shadow-elevated-lg ${config.accent}`}
+            style={{ animation: 'slide-in-bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
           >
             <div className="flex items-start gap-3">
-              <div className={`p-1.5 rounded-lg ${config.bg}`}>
-                <Icon className={`w-4 h-4 ${config.color}`} />
+              <div className={`shrink-0 rounded-lg p-1.5 ${config.bg}`}>
+                <Icon className={`h-4 w-4 ${config.color}`} aria-hidden="true" />
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-foreground">{toast.title}</p>
-                {toast.message && (
-                  <p className="mt-1 text-xs text-muted">{toast.message}</p>
-                )}
+                {toast.message && <p className="mt-1 text-sm text-muted">{toast.message}</p>}
               </div>
               <button
+                type="button"
                 onClick={() => removeToast(toast.id)}
-                className="p-1 rounded-md text-subtle hover:text-foreground hover:bg-edge transition-colors"
-                aria-label="Close"
+                className="-m-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-subtle transition-colors hover:bg-surface-light hover:text-foreground"
+                aria-label="Dismiss notification"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>

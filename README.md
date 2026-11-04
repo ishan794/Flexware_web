@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flxware website
 
-## Getting Started
+Marketing website and content-managed admin panel for Flxware, built with Next.js 16 (App Router),
+Tailwind CSS v4, Prisma and PostgreSQL.
 
-First, run the development server:
+## Quick start
 
 ```bash
+npm install
+cp .env.example .env    # leave DATABASE_URL empty to use the development data store
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Website: http://localhost:3000
+- Admin: http://localhost:3000/admin. Use `ADMIN_PASSWORD` from `.env`, or, in development only, the
+  one-time password printed in the server console when it's empty.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Without `DATABASE_URL` the app runs on an **in-memory development store** (not persisted, refused in
+production). See [docs/ADMIN.md](docs/ADMIN.md) to connect PostgreSQL.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+| Script | Purpose |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` / `npm start` | Production build / server |
+| `npm test` | Jest: components, validation schemas, admin API integration (no database needed) |
+| `npm run lint` | ESLint |
+| `npm run db:deploy` | Apply Prisma migrations (needs `DATABASE_URL`) |
+| `npm run db:seed` | Load the site's current content into the database (idempotent) |
+| `npm run db:migrate` | Create a new migration after editing `prisma/schema.prisma` |
+| `npm run db:studio` | Browse the database |
 
-To learn more about Next.js, take a look at the following resources:
+## Project layout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/(site)/         public pages (home, services, portfolio, careers, about, contact…)
+app/admin/          admin panel (login + modules)
+app/api/admin/      admin API (session + role protected)
+app/api/contact/    public contact endpoint → admin Inquiries
+app/lib/cms/        content types, defaults (seed source) and validation schemas
+app/lib/server/     auth, permissions, content service, repository adapters, media storage
+prisma/             schema, generated SQL migration, seed script
+docs/ADMIN.md       CMS architecture, security model, database setup, deployment
+```

@@ -3,167 +3,173 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../lib/theme-context';
-
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/services', label: 'Services' },
-  { href: '/about', label: 'About' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/careers', label: 'Careers' },
-  { href: '/contact', label: 'Contact' },
-];
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { Menu, X, ArrowRight } from 'lucide-react';
+import ThemeMenu from './ThemeMenu';
+import Logo from './Logo';
+import { navLinks } from '../lib/site';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const pathname = usePathname();
-  const { theme, toggle } = useTheme();
-
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+
+      if (isHomePage) {
+        const sections = ['contact', 'portfolio', 'about', 'services', 'home'];
+        for (const sec of sections) {
+          const el = document.getElementById(sec);
+          if (el) {
+            const top = el.getBoundingClientRect().top;
+            if (top <= 200) {
+              setActiveSection(sec);
+              break;
+            }
+          }
+        }
+      }
+    };
+
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    if (isMobileOpen) {
-      const timer = setTimeout(() => {
-        setIsMobileOpen(false);
-      }, 0);
-      return () => clearTimeout(timer);
+  const closeMenu = () => setIsMobileOpen(false);
+
+  const isLinkActive = (href: string) => {
+    if (href === '/careers') {
+      return pathname.startsWith('/careers');
     }
-  }, [pathname, isMobileOpen]);
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = isMobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMobileOpen]);
+    if (isHomePage) {
+      if (href === '/#home') return activeSection === 'home';
+      if (href === '/#services') return activeSection === 'services';
+      if (href === '/#about') return activeSection === 'about';
+      if (href === '/#portfolio') return activeSection === 'portfolio';
+      if (href === '/#contact') return activeSection === 'contact';
+    }
+    return false;
+  };
 
   return (
     <header
       id="main-navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'glass-strong shadow-elevated'
-          : 'bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+        isScrolled ? 'glass-strong border-edge shadow-elevated' : 'border-transparent bg-transparent'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
+      <nav aria-label="Main" className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link
-          href="/"
-          className="relative z-10 text-2xl font-extrabold tracking-tight gradient-text hover:opacity-80 transition-opacity"
+          href="/#home"
+          className="-m-1.5 shrink-0 rounded-md p-1.5 transition-opacity hover:opacity-80"
+          aria-label="Flxware home"
         >
-          Flxware
+          <Logo priority />
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                pathname === link.href
-                  ? 'text-primary-light'
-                  : 'text-muted hover:text-foreground hover:bg-edge'
-              }`}
-            >
-              {link.label}
-              {pathname === link.href && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full" />
-              )}
-            </Link>
-          ))}
-        </div>
+        {/* Desktop navigation */}
+        <ul className="hidden items-center gap-1 md:flex">
+          {navLinks.map((link) => {
+            const active = isLinkActive(link.href);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`relative block rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 lg:px-4 ${
+                    active ? 'text-foreground' : 'text-muted hover:bg-surface-light hover:text-foreground'
+                  }`}
+                >
+                  {link.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-to-r from-primary to-secondary transition-transform duration-300 lg:inset-x-4 ${
+                      active ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <button
-            onClick={toggle}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-          <Link
-            href="/contact"
-            className="btn btn-primary btn-sm group"
-          >
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeMenu />
+          <Link href="/#contact" className="btn btn-primary btn-sm group hidden whitespace-nowrap lg:inline-flex">
             Get Started
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
         </div>
 
-        {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-2 relative z-10">
+        {/* Mobile controls */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeMenu />
           <button
-            onClick={toggle}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-          <button
+            type="button"
             id="mobile-menu-toggle"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-edge transition-colors"
-            aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setIsMobileOpen(true)}
+            className="icon-btn"
+            aria-label="Open menu"
+            aria-expanded={isMobileOpen}
+            aria-controls="mobile-menu-drawer"
           >
-            {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed inset-0 bg-background/80 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
-          isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setIsMobileOpen(false)}
-      />
-
-      {/* Mobile Menu Drawer */}
-      <div
-        id="mobile-menu-drawer"
-        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] glass-strong md:hidden transition-transform duration-500 ease-out ${
-          isMobileOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex flex-col pt-24 px-6 gap-2">
-          {navLinks.map((link, i) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsMobileOpen(false)}
-              className={`px-4 py-3 text-base font-medium rounded-xl transition-all duration-300 ${
-                pathname === link.href
-                  ? 'text-primary-light bg-primary/10'
-                  : 'text-muted hover:text-foreground hover:bg-edge'
-              }`}
-              style={{ transitionDelay: isMobileOpen ? `${i * 50}ms` : '0ms' }}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          <div className="mt-4 pt-4 border-t border-edge flex items-center justify-center">
-            <Link
-              href="/contact"
-              onClick={() => setIsMobileOpen(false)}
-              className="btn btn-primary btn-sm w-full group"
-            >
+      {/* Mobile drawer: Headless UI handles focus trap, Escape, scroll lock and inert background */}
+      <Dialog open={isMobileOpen} onClose={closeMenu} className="relative z-[70] md:hidden">
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-background/70 backdrop-blur-sm transition-opacity duration-300 data-closed:opacity-0"
+        />
+        <DialogPanel
+          id="mobile-menu-drawer"
+          transition
+          className="glass-strong fixed inset-y-0 right-0 flex w-80 max-w-[85vw] flex-col overflow-y-auto px-4 pb-8 transition-transform duration-300 ease-out data-closed:translate-x-full"
+        >
+          <div className="flex h-16 items-center justify-between px-2">
+            <DialogTitle>
+              <Logo className="h-6 w-auto" />
+              <span className="sr-only"> menu</span>
+            </DialogTitle>
+            <button type="button" onClick={closeMenu} className="icon-btn" aria-label="Close menu">
+              <X className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+          <ul className="mt-2 flex flex-col gap-1">
+            {navLinks.map((link) => {
+              const active = isLinkActive(link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={closeMenu}
+                    aria-current={active ? 'page' : undefined}
+                    className={`flex min-h-12 items-center rounded-xl px-4 text-base font-medium transition-colors ${
+                      active ? 'bg-primary/10 text-primary-light' : 'text-muted hover:bg-surface-light hover:text-foreground'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="mt-6 border-t border-edge pt-6">
+            <Link href="/#contact" onClick={closeMenu} className="btn btn-primary w-full group">
               Get Started
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </Link>
           </div>
-        </div>
-      </div>
+        </DialogPanel>
+      </Dialog>
     </header>
   );
 }
