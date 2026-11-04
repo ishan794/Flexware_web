@@ -15,7 +15,9 @@
 
 # next.js
 /.next/
+/.next-static/
 /out/
+/.static-build-parked/
 
 # production
 /build

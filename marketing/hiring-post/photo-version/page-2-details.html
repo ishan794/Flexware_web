@@ -1,0 +1,104 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1b4f86;--ink:#0d2238;--mint:#b4ecc5;--bub:#cdd7e3}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;font-family:Poppins,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(900px 700px at 50% 30%, #ffffff 0%, rgba(255,255,255,0) 70%),
+      linear-gradient(180deg,#eef4f9 0%,#e9f3ef 55%,#e6eef6 100%)}
+  .bub{position:absolute;border-radius:50%;background:var(--bub)}
+  .ring{position:absolute;border-radius:50%;border:20px solid var(--bub)}
+  .logo{position:absolute;left:96px;top:96px;width:290px;mix-blend-mode:multiply}
+  .li{position:absolute;right:108px;top:116px;width:68px;height:68px;border-radius:12px;background:#e4e8ed;display:grid;place-items:center}
+
+  .eyebrow{position:absolute;left:112px;top:206px;font-size:22px;font-weight:600;letter-spacing:8px;color:#6b86a3;text-transform:uppercase}
+  h2{position:absolute;left:108px;top:258px;font-size:66px;font-weight:800;letter-spacing:-1.5px;line-height:1.1;color:var(--navy)}
+  h2 span{background:var(--mint);color:var(--ink);padding:0 14px;border-radius:10px;margin-left:-4px}
+
+  .grid{position:absolute;left:96px;right:96px;top:384px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .card{background:rgba(255,255,255,.9);border-radius:20px;padding:26px 26px 24px;height:268px;display:flex;flex-direction:column;
+    box-shadow:0 14px 34px rgba(13,34,56,.10),0 0 0 1px rgba(13,34,56,.05)}
+  .top{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .ic{flex:none;width:54px;height:54px;border-radius:13px;background:var(--navy);display:grid;place-items:center}
+  .ic svg{width:28px;height:28px;stroke:var(--mint);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:25px;font-weight:700;line-height:1.15;color:var(--navy)}
+  .card p{font-size:18.5px;line-height:1.5;color:#3d4f63;flex:1}
+  .tags{display:flex;gap:8px;margin-top:10px}
+  .tags b{font-size:15px;font-weight:500;background:#e6f6ea;color:#24563a;padding:5px 12px;border-radius:6px}
+
+  .who{position:absolute;left:96px;right:96px;top:964px}
+  .who h4{font-size:24px;font-weight:700;color:var(--ink);margin-bottom:14px}
+  .who ul{list-style:none;display:grid;grid-template-columns:1.12fr .88fr;gap:12px 24px}
+  .who li{display:flex;align-items:center;gap:12px;font-size:19.5px;color:#2c3e52}
+  .who li i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--mint);display:grid;place-items:center}
+  .who li i svg{width:15px;height:15px;stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  .band{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(180deg,#000 0%,#05101c 100%);
+    display:flex;align-items:center;justify-content:space-between;padding:0 96px}
+  .band .apply{font-size:58px;font-weight:800;letter-spacing:-1px;color:#fff;line-height:1}
+  .band .apply span{color:var(--mint)}
+  .band .sub{font-size:20px;color:#8e9aa8;margin-top:10px}
+  .band .btn{background:var(--navy);color:#fff;border-radius:8px;padding:18px 26px;font-size:24px;letter-spacing:.5px;display:flex;align-items:center;gap:14px}
+</style></head>
+<body><div class="poster">
+  <div class="bub" style="left:216px;top:20px;width:54px;height:54px"></div>
+  <div class="ring" style="left:542px;top:-14px;width:104px;height:104px"></div>
+  <div class="bub" style="left:994px;top:16px;width:56px;height:56px"></div>
+  <div class="bub" style="left:948px;top:228px;width:38px;height:38px"></div>
+  <div class="ring" style="left:-40px;top:560px;width:110px;height:110px"></div>
+  <div class="ring" style="left:1020px;top:700px;width:100px;height:100px"></div>
+  <div class="bub" style="left:30px;top:930px;width:40px;height:40px"></div>
+  <div class="bub" style="left:1020px;top:1060px;width:36px;height:36px"></div>
+
+  <img class="logo" src="logo.png" alt="Flxware">
+  <div class="li"><svg width="40" height="40" viewBox="0 0 24 24" fill="#8b9198"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7 0h3.8v2.2h.1c.53-1 1.84-2.2 3.8-2.2 4 0 4.8 2.6 4.8 6V24h-4v-8.4c0-2 0-4.6-2.8-4.6s-3.2 2.2-3.2 4.4V24h-4V8z"/></svg></div>
+
+  <div class="eyebrow">Now open · 4 roles</div>
+  <h2><span>Internship</span> Opportunities</h2>
+
+  <div class="grid">
+    <div class="card">
+      <div class="top"><span class="ic"><svg viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></svg></span><h3>Software Engineer<br>(Fullstack)</h3></div>
+      <p>Code, test and debug real products across React and Laravel, guided by experienced engineers.</p>
+      <div class="tags"><b>Engineering</b><b>Onsite</b><b>Internship</b></div>
+    </div>
+    <div class="card">
+      <div class="top"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"/></svg></span><h3>AI/ML<br>Engineer</h3></div>
+      <p>Prototype, train and evaluate models, and help bring AI features into our products.</p>
+      <div class="tags"><b>Engineering</b><b>Onsite</b><b>Internship</b></div>
+    </div>
+    <div class="card">
+      <div class="top"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16.5 9"/></svg></span><h3>QA/BA<br>Engineer</h3></div>
+      <p>Test releases manually and with automation, and turn business needs into clear requirements.</p>
+      <div class="tags"><b>QA &amp; Product</b><b>Onsite</b><b>Internship</b></div>
+    </div>
+    <div class="card">
+      <div class="top"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg></span><h3>Customer Success &amp;<br>Sales Executive</h3></div>
+      <p>Onboard and support clients, keep them successful, and help grow new business.</p>
+      <div class="tags"><b>Sales</b><b>Onsite</b><b>Internship</b></div>
+    </div>
+  </div>
+
+  <div class="who">
+    <h4>Who can apply</h4>
+    <ul>
+      <li><i><svg viewBox="0 0 24 24"><polyline points="5 12.5 10 17 19 7"/></svg></i>Undergraduates in CS, IT, Business &amp; related</li>
+      <li><i><svg viewBox="0 0 24 24"><polyline points="5 12.5 10 17 19 7"/></svg></i>Fast learners who love technology</li>
+      <li><i><svg viewBox="0 0 24 24"><polyline points="5 12.5 10 17 19 7"/></svg></i>Available for a minimum of 6 months</li>
+      <li><i><svg viewBox="0 0 24 24"><polyline points="5 12.5 10 17 19 7"/></svg></i>Able to work onsite at our office</li>
+    </ul>
+  </div>
+
+  <div class="band">
+    <div>
+      <div class="apply">Apply <span>Now</span></div>
+      <div class="sub">Full role details on our careers page</div>
+    </div>
+    <div class="btn">www.flxwaretech.com/careers
+      <svg width="26" height="22" viewBox="0 0 34 30" fill="none" stroke="#5aa8f0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11 11L4 26M18 4l11 11-11 11"/></svg>
+    </div>
+  </div>
+</div></body></html>

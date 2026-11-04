@@ -4,7 +4,20 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Mail, MapPin, Clock, Check } from 'lucide-react';
 import Breadcrumbs from '@/app/components/Breadcrumbs';
 import Reveal from '@/app/components/Reveal';
-import { getContent, getPublishedJob } from '@/app/lib/server/content';
+import { getContent, getPublished, getPublishedJob } from '@/app/lib/server/content';
+
+// Enumerates the slugs so `output: 'export'` can emit a page per job.
+export async function generateStaticParams() {
+  return (await getPublished('jobs')).map(({ slug }) => ({ slug }));
+}
+
+// Internship applications say "Intern" in the subject, ahead of any trailing
+// qualifier: "Software Engineer (Fullstack)" -> "Software Engineer Intern (Fullstack)".
+function applicationRole(title: string, commitment: string): string {
+  if (!/internship/i.test(commitment) || /\bintern\b/i.test(title)) return title;
+  const qualifier = title.match(/^(.*?)\s*(\([^)]*\))$/);
+  return qualifier ? `${qualifier[1]} Intern ${qualifier[2]}` : `${title} Intern`;
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -21,7 +34,7 @@ export default async function JobPage({ params }: { params: Promise<{ slug: stri
   const [job, site] = await Promise.all([getPublishedJob(slug), getContent('settings')]);
   if (!job) notFound();
 
-  const subject = `${job.title} - <First Name> <Last Name>`;
+  const subject = `${applicationRole(job.title, job.commitment)} - <First Name> <Last Name>`;
 
   return (
     <div className="px-4 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-14 lg:px-8">

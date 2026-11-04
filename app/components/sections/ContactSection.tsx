@@ -106,7 +106,7 @@ export default function ContactSection({ settings: site }: { settings: SiteSetti
                 <span className="sr-only">Locations</span>
                 <MapPin aria-hidden="true" className="h-6 w-6 text-primary" />
               </dt>
-              <dd>{site.locations} — Remote-first studio</dd>
+              <dd>{site.locations}</dd>
             </div>
             <div className="flex items-center gap-x-4">
               <dt>

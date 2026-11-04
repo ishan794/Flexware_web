@@ -1,5 +1,6 @@
 # Production image for the Flxware website + admin (Next.js standalone server).
-# Runtime env: DATABASE_URL, ADMIN_PASSWORD, optional UPLOAD_DIR (mount a volume there).
+# Runtime env: DATABASE_URL, ADMIN_PASSWORD, SITE_URL (defaults to https://flxwaretech.com),
+# optional UPLOAD_DIR (mount a volume there).
 
 FROM node:20-alpine AS deps
 WORKDIR /app

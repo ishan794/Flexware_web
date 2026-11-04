@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, MapPin, Globe2, Clock } from 'lucide-react';
+import { ArrowRight, MapPin, Clock } from 'lucide-react';
 import SectionHeading from '@/app/components/SectionHeading';
 import Reveal from '@/app/components/Reveal';
 import StatsSection from '@/app/components/sections/StatsSection';
@@ -25,7 +25,6 @@ export default async function AboutPage() {
   ]);
   const facts = [
     { icon: MapPin, label: 'Locations', value: site.locations },
-    { icon: Globe2, label: 'Working model', value: 'Remote-first studio' },
     { icon: Clock, label: 'Response time', value: 'Within 24 hours' },
   ];
 
@@ -38,7 +37,9 @@ export default async function AboutPage() {
         description={about.intro}
       />
 
-      <dl className="mx-auto mb-20 grid max-w-4xl grid-cols-1 gap-4 sm:mb-28 sm:grid-cols-3">
+      {/* Two facts: a narrower container keeps the cards near their original width
+          instead of stretching them across the full measure. */}
+      <dl className="mx-auto mb-20 grid max-w-2xl grid-cols-1 gap-4 sm:mb-28 sm:grid-cols-2">
         {facts.map((fact, i) => (
           <Reveal key={fact.label} index={i} className="glass-card flex items-center gap-4 rounded-2xl p-5">
             <span className="rounded-xl bg-primary/10 p-2.5 text-primary">

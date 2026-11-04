@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #144a78;
+    --navy-deep: #0e365a;
+    --mint: #bcefc6;
+    --ring: #d3dbe5;
+    --ink: #0b0d10;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 44%, #6b737d 52%, #16191d 58%, var(--ink) 66%);
+    position: relative;
+  }
+  .deco { position: absolute; inset: 0; }
+  .logo {
+    position: absolute; top: 92px; left: 95px; height: 96px;
+    mix-blend-mode: multiply;
+  }
+  .li {
+    position: absolute; top: 112px; right: 108px; width: 68px; height: 68px;
+    border-radius: 12px; background: #eef0f3; display: grid; place-items: center;
+    font-weight: 800; font-size: 34px; color: #9aa3ad;
+  }
+  .eyebrow {
+    position: absolute; top: 300px; left: 0; right: 0; text-align: center;
+    font-size: 26px; font-weight: 600; letter-spacing: 8px; color: var(--navy); text-transform: uppercase;
+  }
+  .headline {
+    position: absolute; top: 350px; left: 0; right: 0; text-align: center;
+    font-weight: 800; font-size: 150px; line-height: 1; letter-spacing: -3px; color: var(--navy-deep);
+  }
+  .headline .hl { position: relative; color: var(--navy); z-index: 0; }
+  .headline .hl::before {
+    content: ""; position: absolute; z-index: -1;
+    left: -6px; right: 4px; top: 62px; bottom: 18px;
+    background: var(--mint); transform: skewX(-18deg); border-radius: 6px;
+  }
+  .sub {
+    position: absolute; top: 530px; left: 0; right: 0; text-align: center;
+    font-size: 30px; font-weight: 500; color: #3d4955;
+  }
+  .roles {
+    position: absolute; top: 700px; left: 112px; right: 112px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .role {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 30px; border-radius: 14px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  }
+  .role .t { font-size: 29px; font-weight: 600; color: #fff; }
+  .role .tag {
+    font-size: 19px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px;
+  }
+  .ft { background: rgba(188,239,198,0.16); color: var(--mint); }
+  .in { background: rgba(20,74,120,0.45); color: #a9c8e6; }
+  .cta {
+    position: absolute; top: 1168px; left: 50%; transform: translateX(-50%);
+    background: var(--navy); color: #fff; border-radius: 12px;
+    padding: 20px 46px; font-size: 34px; font-weight: 500; letter-spacing: 2px;
+    display: flex; align-items: center; gap: 26px; white-space: nowrap;
+  }
+  .cta .chev { color: var(--mint); font-weight: 700; font-size: 40px; letter-spacing: -6px; }
+  .url {
+    position: absolute; top: 1282px; left: 0; right: 0; text-align: center;
+    font-size: 26px; color: #c9d2db; letter-spacing: 0.5px;
+  }
+  .url b { color: var(--mint); font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="deco" width="1080" height="1350" viewBox="0 0 1080 1350" fill="none">
+    <g fill="#d3dbe5">
+      <circle cx="245" cy="45" r="27"/><circle cx="1022" cy="45" r="27"/>
+      <circle cx="186" cy="246" r="18"/><circle cx="967" cy="246" r="18"/>
+      <circle cx="160" cy="610" r="16"/><circle cx="930" cy="590" r="22"/>
+    </g>
+    <g stroke="#d3dbe5" stroke-width="18">
+      <circle cx="593" cy="50" r="38"/>
+      <circle cx="40" cy="560" r="40"/>
+      <circle cx="1050" cy="250" r="34"/>
+    </g>
+  </svg>
+
+  <img class="logo" src="logo.png" alt="Flxware">
+  <div class="li">in</div>
+
+  <div class="eyebrow">Join our team</div>
+  <div class="headline">We’re <span class="hl">Hiring</span></div>
+  <div class="sub">Build what comes next with us.</div>
+
+  <div class="roles">
+    <div class="role"><span class="t">Software Engineer (Fullstack)</span><span class="tag ft">Full-time</span></div>
+    <div class="role"><span class="t">AI/ML Engineer</span><span class="tag ft">Full-time</span></div>
+    <div class="role"><span class="t">QA/BA Engineer</span><span class="tag ft">Full-time</span></div>
+    <div class="role"><span class="t">Customer Success &amp; Sales Executive</span><span class="tag ft">Full-time</span></div>
+  </div>
+
+  <div class="cta">Apply Now <span class="chev">»</span></div>
+  <div class="url">www.flxwaretech.com/<b>careers</b></div>
+</body>
+</html>

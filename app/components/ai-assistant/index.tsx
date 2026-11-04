@@ -7,6 +7,7 @@ import VoiceButton from './VoiceButton';
 import ConversationPanel from './ConversationPanel';
 import { speak } from './tts';
 import { OPEN_ASSISTANT_EVENT } from './events';
+import { processMessage } from '../../lib/conversation-engine';
 
 export type Message = { id: string; role: 'user' | 'assistant'; text: string };
 
@@ -59,17 +60,16 @@ export default function AiAssistant({ contactEmail }: { contactEmail: string }) 
       try {
         setThinking(true);
         setAssistantState('thinking');
-        const res = await fetch('/api/assistant', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: text,
-            history: messages.map((m) => ({ role: m.role, text: m.text })),
-          }),
-        });
-        if (!res.ok) throw new Error(`Assistant responded ${res.status}`);
-        const data = await res.json();
-        const reply: string = data?.reply ?? 'Sorry, I could not process that right now.';
+        // The engine is rule-based and needs no server, so it runs here rather than
+        // over /api/assistant. That keeps the assistant working in the static export.
+        // The short pause stands in for the old network latency, so the "thinking"
+        // state is still readable instead of flashing past.
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        const result = processMessage(
+          text,
+          messages.map((m) => ({ role: m.role, text: m.text }))
+        );
+        const reply: string = result.reply ?? 'Sorry, I could not process that right now.';
         setMessages((m) => [...m, { id: String(Date.now() + 1), role: 'assistant', text: reply }]);
         setThinking(false);
         setAssistantState('speaking');

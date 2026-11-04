@@ -1,0 +1,65 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;
+    background:
+      radial-gradient(900px 700px at 50% 38%, #ffffff 0%, rgba(255,255,255,0) 70%),
+      linear-gradient(180deg,#eef4f9 0%,#e9f3ef 55%,#e6eef6 100%);
+    font-family:Poppins,sans-serif}
+  .bub{position:absolute;border-radius:50%;background:#cdd7e3}
+  .ring{position:absolute;border-radius:50%;border:22px solid #cdd7e3}
+  .photo{position:absolute;left:-262px;top:-60px;width:1600px;height:1600px;
+    background:url(person.jpg) center/cover;mix-blend-mode:multiply;filter:brightness(1.07) contrast(1.04);
+    -webkit-mask-image:radial-gradient(560px 880px at 860px 900px,#000 55%,transparent 100%)}
+  .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 48%,rgba(0,0,0,.5) 59%,rgba(0,0,0,.88) 68%,#000 76%)}
+  .logo{position:absolute;left:96px;top:96px;width:290px;mix-blend-mode:multiply}
+  .li{position:absolute;right:108px;top:116px;width:68px;height:68px;border-radius:12px;background:#e4e8ed;display:grid;place-items:center}
+  h1{position:absolute;left:0;right:0;top:826px;text-align:center;font-weight:800;font-size:152px;letter-spacing:-3px;line-height:1;color:#fff}
+  h1 span{color:#b4ecc5}
+  .btn{position:absolute;left:50%;top:1068px;transform:translateX(-50%);width:500px;height:86px;border-radius:8px;background:#1b4f86;
+    display:flex;align-items:center;justify-content:center;gap:30px;color:#fff;font-size:40px;font-weight:400;letter-spacing:2px}
+  .intern{position:absolute;left:0;right:0;top:988px;text-align:center;font-size:38px;font-weight:500;letter-spacing:9px;color:#fff;text-transform:uppercase}
+  .intern span{color:#b4ecc5;font-weight:800}
+  .swipe{position:absolute;right:56px;bottom:52px;color:#7d8794;font-size:20px;letter-spacing:3px;text-transform:uppercase}
+  .url{position:absolute;left:0;right:0;top:1222px;display:flex;justify-content:center;align-items:center;gap:12px;color:#c9e6d2;font-size:27px;letter-spacing:.5px}
+</style></head>
+<body><div class="poster">
+  <!-- bubbles: lighter, airier than the previous poster -->
+  <div class="bub" style="left:216px;top:20px;width:54px;height:54px"></div>
+  <div class="ring" style="left:542px;top:-14px;width:104px;height:104px"></div>
+  <div class="bub" style="left:994px;top:16px;width:56px;height:56px"></div>
+  <div class="ring" style="left:322px;top:132px;width:72px;height:72px;border-width:14px"></div>
+  <div class="bub" style="left:168px;top:228px;width:36px;height:36px"></div>
+  <div class="bub" style="left:948px;top:228px;width:38px;height:38px"></div>
+  <div class="bub" style="left:520px;top:212px;width:66px;height:66px"></div>
+  <div class="ring" style="left:-2px;top:362px;width:110px;height:110px"></div>
+  <div class="ring" style="left:282px;top:380px;width:80px;height:80px;border-width:16px"></div>
+  <div class="ring" style="left:782px;top:362px;width:112px;height:112px"></div>
+  <div class="ring" style="left:1036px;top:380px;width:96px;height:96px;border-width:18px"></div>
+  <div class="bub" style="left:240px;top:608px;width:40px;height:40px"></div>
+  <div class="bub" style="left:1024px;top:608px;width:38px;height:38px"></div>
+  <div class="bub" style="left:212px;top:716px;width:58px;height:58px"></div>
+  <div class="bub" style="left:994px;top:718px;width:56px;height:56px"></div>
+  <div class="ring" style="left:700px;top:544px;width:92px;height:92px;border-width:16px"></div>
+
+  <div class="photo"></div>
+  <div class="shade"></div>
+
+  <img class="logo" src="logo.png" alt="Flxware">
+
+  <div class="li"><svg width="40" height="40" viewBox="0 0 24 24" fill="#8b9198"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7 0h3.8v2.2h.1c.53-1 1.84-2.2 3.8-2.2 4 0 4.8 2.6 4.8 6V24h-4v-8.4c0-2 0-4.6-2.8-4.6s-3.2 2.2-3.2 4.4V24h-4V8z"/></svg></div>
+
+  <h1>We’re <span>Hiring</span></h1>
+  <div class="intern"><span>Internship</span> Opportunities</div>
+  <div class="btn">View Internships
+    <svg width="34" height="30" viewBox="0 0 34 30" fill="none" stroke="#5aa8f0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11 11L4 26M18 4l11 11-11 11"/></svg>
+  </div>
+  <div class="url">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#c9e6d2" stroke-width="1.8" stroke-linecap="round"><circle cx="13" cy="11" r="8"/><path d="M9 11a4 4 0 1 1 4 4"/><path d="M3 21l7-7 1 4 3-3" fill="#5aa8f0" stroke="#5aa8f0"/></svg>
+    www.flxwaretech.com/careers
+  </div>
+  <div class="swipe">Swipe &rarr;</div>
+</div></body></html>

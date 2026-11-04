@@ -22,12 +22,20 @@ export function focusFirstError(form: HTMLFormElement | null, errors: Record<str
 }
 
 /**
- * Posts to /api/contact, which stores the message as an inquiry (Admin → Inquiries).
+ * Where the form posts. The server build keeps /api/contact, which stores the
+ * message as an inquiry (Admin → Inquiries). The static build has no API routes,
+ * so NEXT_PUBLIC_CONTACT_ENDPOINT points it at contact.php on the host instead.
+ * Both accept the same JSON and answer { success: true } | { error }.
+ */
+const CONTACT_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || '/api/contact';
+
+/**
+ * Posts the message to CONTACT_ENDPOINT.
  * If the request fails, the toast gives people a direct email fallback.
  */
 export async function submitContact(payload: Record<string, string>, contactEmail = defaultContent.settings.email) {
   try {
-    const res = await fetch('/api/contact', {
+    const res = await fetch(CONTACT_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
