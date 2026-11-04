@@ -1,9 +1,11 @@
+import path from "path";
 import type { NextConfig } from "next";
 
 // Runs as a Node.js server (`next start`): the admin panel, API routes and
 // database-backed pages need a server, so static export (`output: 'export'`) is off.
 const nextConfig: NextConfig = {
   output: 'standalone',
+  turbopack: { root: path.resolve(__dirname) },
   poweredByHeader: false,
   async headers() {
     return [

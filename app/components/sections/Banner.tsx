@@ -2,8 +2,17 @@
 
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import { openAssistant } from '../ai-assistant/events';
 import type { BannerSettings } from '../../lib/cms/types';
+
+type WorkSuiteChat = { open?: () => void; q?: [string, unknown[]][] };
+
+/** Opens the Worksuite chat; calls made before widget.js loads are queued in `q` */
+function openChat() {
+  const w = window as unknown as { WorkSuiteChat?: WorkSuiteChat };
+  if (w.WorkSuiteChat?.open) return w.WorkSuiteChat.open();
+  w.WorkSuiteChat = w.WorkSuiteChat ?? {};
+  (w.WorkSuiteChat.q ??= []).push(['open', []]);
+}
 
 /** Announcement bar; controlled from Admin → Settings */
 export default function Banner({ banner }: { banner: BannerSettings }) {
@@ -30,14 +39,14 @@ export default function Banner({ banner }: { banner: BannerSettings }) {
           {banner.text}
         </p>
         {banner.ctaLabel && (
-        <button
-          type="button"
-          onClick={openAssistant}
-          aria-haspopup="dialog"
-          className="flex-none rounded-full bg-primary-dark px-3.5 py-1 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary"
-        >
-          {banner.ctaLabel} <span aria-hidden="true">&rarr;</span>
-        </button>
+          <button
+            type="button"
+            onClick={openChat}
+            aria-haspopup="dialog"
+            className="flex-none rounded-full bg-primary-dark px-3.5 py-1 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary"
+          >
+            {banner.ctaLabel} <span aria-hidden="true">&rarr;</span>
+          </button>
         )}
       </div>
       <button

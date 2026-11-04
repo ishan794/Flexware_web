@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useGlobalScrollAnimations } from '@/app/lib/animations';
+import { useGlobalScrollAnimations, useSectionTextReveal } from '@/app/lib/animations';
 
 /**
  * Client component that initializes the global IntersectionObserver
@@ -11,5 +11,6 @@ import { useGlobalScrollAnimations } from '@/app/lib/animations';
 export default function ScrollAnimationProvider() {
   const pathname = usePathname();
   useGlobalScrollAnimations(pathname);
+  useSectionTextReveal(pathname);
   return null;
 }

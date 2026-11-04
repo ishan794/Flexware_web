@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import AiAssistant from './ai-assistant';
+import Script from 'next/script';
 import ScrollAnimationProvider from './ScrollAnimationProvider';
 import { getContent } from '../lib/server/content';
 
-/** Public website frame: skip link, header, main landmark, footer and assistant */
+/** Public website frame: skip link, header, main landmark, footer and chat widget */
 export default async function SiteChrome({ children }: { children: ReactNode }) {
   const settings = await getContent('settings');
 
@@ -19,7 +19,12 @@ export default async function SiteChrome({ children }: { children: ReactNode }) 
         {children}
       </main>
       <Footer settings={settings} />
-      <AiAssistant contactEmail={settings.email} />
+      <Script
+        src="https://app.worksuite.lk/widget.js"
+        data-widget-id="iUJe9YMgg0Ju_j_Vfw2MoxHA"
+        charSet="utf-8"
+        strategy="afterInteractive"
+      />
       <ScrollAnimationProvider />
     </>
   );
