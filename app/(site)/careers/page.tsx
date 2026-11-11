@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, Mail, MapPin, Clock, Briefcase, Layers } from 'lucide-react';
+import { ArrowRight, MapPin, Clock, Briefcase, Layers } from 'lucide-react';
 import SectionHeading from '@/app/components/SectionHeading';
 import Reveal from '@/app/components/Reveal';
+import CareersApplyForm from '@/app/components/CareersApplyForm';
 import { getContent, getPublished } from '@/app/lib/server/content';
 import { pageMetadata } from '@/app/lib/server/seo';
 
@@ -66,18 +67,23 @@ export default async function CareersPage() {
         </ul>
       </section>
 
-      <Reveal className="mx-auto max-w-4xl text-center">
-        <div className="glass-card rounded-3xl px-6 py-12 sm:p-12 md:p-16">
-          <Briefcase className="mx-auto mb-5 h-8 w-8 text-primary" aria-hidden="true" />
-          <h2 className="mb-4 text-2xl font-bold text-foreground sm:text-3xl">Don&apos;t See the Right Role?</h2>
-          <p className="mx-auto mb-8 max-w-lg text-muted">
-            We&apos;re always looking for talented individuals. Send us your resume and tell us how you can contribute.
-          </p>
-          <a href={`mailto:${site.careersEmail}`} className="btn btn-primary btn-lg max-w-full">
-            <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span className="truncate">{site.careersEmail}</span>
-          </a>
-        </div>
+      <Reveal className="mx-auto max-w-6xl">
+        <section
+          aria-labelledby="open-application"
+          className="glass-card grid grid-cols-1 gap-10 rounded-3xl px-6 py-12 sm:p-12 lg:grid-cols-12 lg:gap-8 lg:p-16"
+        >
+          <div className="lg:col-span-7">
+            <Briefcase className="mb-5 h-8 w-8 text-primary" aria-hidden="true" />
+            <h2
+              id="open-application"
+              className="max-w-xl text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl"
+            >
+              Don&apos;t see the right role? Send us your resume.
+            </h2>
+          </div>
+
+          <CareersApplyForm email={site.careersEmail} />
+        </section>
       </Reveal>
     </div>
   );
