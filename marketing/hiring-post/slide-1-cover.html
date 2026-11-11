@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #144a78;
+    --navy-deep: #0b2a47;
+    --mint: #bcefc6;
+    --ring: #e3e8ee;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; }
+  body {
+    font-family: 'Poppins', sans-serif; position: relative;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 53%, #6f8aa5 58%, #1a4269 62%, var(--navy-deep) 68%);
+  }
+  .deco { position: absolute; inset: 0; }
+  .logo { position: absolute; top: 92px; left: 95px; height: 96px; mix-blend-mode: multiply; }
+  .li {
+    position: absolute; top: 108px; right: 108px; width: 68px; height: 68px;
+    border-radius: 12px; background: #eef0f3; display: grid; place-items: center;
+    font-weight: 700; font-size: 34px; color: #9aa3ad;
+  }
+
+  /* Centre illustration: a small team at a desk, role badges around it */
+  .team { position: absolute; top: 226px; left: 260px; width: 560px; height: 420px; }
+
+  .badge {
+    position: absolute; display: flex; align-items: center; gap: 14px;
+    background: #fff; border-radius: 16px; padding: 14px 22px 14px 14px;
+    box-shadow: 0 16px 36px rgba(11,42,71,0.16), 0 0 0 1px rgba(11,42,71,0.05);
+    font-size: 24px; font-weight: 600; color: var(--navy); white-space: nowrap;
+  }
+  .badge .ic { width: 56px; height: 56px; border-radius: 12px; background: var(--mint); display: grid; place-items: center; }
+  .badge svg { width: 30px; height: 30px; stroke: var(--navy); stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .headline {
+    position: absolute; top: 850px; left: 0; right: 0; text-align: center;
+    font-weight: 800; font-size: 150px; line-height: 1; letter-spacing: -3px; color: #fff;
+  }
+  .headline span { color: var(--mint); }
+  .intern {
+    position: absolute; top: 1012px; left: 0; right: 0; text-align: center;
+    font-size: 40px; font-weight: 600; letter-spacing: 7px; text-transform: uppercase; color: #fff;
+  }
+  .intern span { color: var(--mint); }
+  .cta {
+    position: absolute; top: 1095px; left: 50%; transform: translateX(-50%);
+    background: var(--mint); color: var(--navy-deep); border-radius: 12px;
+    padding: 18px 44px; font-size: 34px; font-weight: 500; letter-spacing: 2px;
+    display: flex; align-items: center; gap: 24px; white-space: nowrap;
+  }
+  .cta .chev { color: var(--navy); font-weight: 700; font-size: 42px; letter-spacing: -8px; }
+  .url {
+    position: absolute; top: 1238px; left: 0; right: 0; text-align: center;
+    font-size: 27px; color: #c9d6e3; letter-spacing: 0.5px;
+  }
+  .url b { color: var(--mint); font-weight: 500; }
+</style>
+</head>
+<body>
+  <svg class="deco" width="1080" height="1350" viewBox="0 0 1080 1350" fill="none">
+    <g fill="#e3e8ee">
+      <circle cx="242" cy="47" r="27"/><circle cx="1022" cy="47" r="27"/>
+      <circle cx="965" cy="250" r="18"/><circle cx="186" cy="246" r="18"/>
+      <circle cx="1040" cy="560" r="19"/><circle cx="56" cy="350" r="20"/>
+    </g>
+    <g stroke="#e3e8ee" stroke-width="20">
+      <circle cx="592" cy="50" r="40"/>
+      <circle cx="34" cy="520" r="38"/><circle cx="1075" cy="400" r="36"/>
+    </g>
+    <g fill="rgba(188,239,198,0.08)">
+      <circle cx="90" cy="1160" r="26"/><circle cx="1000" cy="1110" r="20"/>
+    </g>
+    <g stroke="rgba(188,239,198,0.08)" stroke-width="18">
+      <circle cx="980" cy="1290" r="40"/><circle cx="120" cy="1330" r="34"/>
+    </g>
+  </svg>
+
+  <img class="logo" src="logo.png" alt="Flxware">
+  <div class="li">in</div>
+
+  <svg class="team" viewBox="0 0 560 420" fill="none">
+    <!-- whiteboard -->
+    <rect x="90" y="18" width="380" height="170" rx="14" fill="#fff" stroke="#e3e8ee" stroke-width="4"/>
+    <rect x="122" y="112" width="26" height="50" rx="5" fill="#bcefc6"/>
+    <rect x="158" y="86" width="26" height="76" rx="5" fill="#144a78"/>
+    <rect x="194" y="60" width="26" height="102" rx="5" fill="#bcefc6"/>
+    <rect x="230" y="44" width="26" height="118" rx="5" fill="#144a78"/>
+    <rect x="296" y="46" width="62" height="54" rx="6" fill="#bcefc6"/>
+    <rect x="370" y="46" width="62" height="54" rx="6" fill="#dce8f4"/>
+    <rect x="296" y="112" width="136" height="12" rx="6" fill="#e3e8ee"/>
+    <rect x="296" y="134" width="96" height="12" rx="6" fill="#e3e8ee"/>
+    <path d="M310 64h34M310 78h22M384 64h34M384 78h26" stroke="#144a78" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+
+    <!-- left person: short hair -->
+    <path d="M85 340V292q0-40 40-42h50q40 2 40 42v48z" fill="#5b84ad"/>
+    <rect x="138" y="238" width="24" height="18" rx="6" fill="#e9b48f"/>
+    <circle cx="150" cy="214" r="30" fill="#e9b48f"/>
+    <path d="M120 212q-2-34 30-36q32 2 30 32q-10-14-30-14q-18 0-30 18z" fill="#1d2a38"/>
+
+    <!-- centre person: long hair -->
+    <path d="M226 238q-14-70 54-72q68 2 54 72q-6 22-54 22q-48 0-54-22z" fill="#3b2a20"/>
+    <path d="M215 340V292q0-40 40-42h50q40 2 40 42v48z" fill="#144a78"/>
+    <rect x="268" y="238" width="24" height="18" rx="6" fill="#c68a5e"/>
+    <circle cx="280" cy="212" r="30" fill="#c68a5e"/>
+    <path d="M250 206q4-30 30-30q28 0 30 30q-22-16-60 0z" fill="#3b2a20"/>
+
+    <!-- right person: curly hair, hand raised -->
+    <path d="M345 340V292q0-40 40-42h50q40 2 40 42v48z" fill="#bcefc6"/>
+    <path d="M470 290q22-30 26-74" stroke="#bcefc6" stroke-width="26" stroke-linecap="round"/>
+    <circle cx="497" cy="206" r="15" fill="#8d5a3b"/>
+    <rect x="398" y="238" width="24" height="18" rx="6" fill="#8d5a3b"/>
+    <circle cx="410" cy="214" r="30" fill="#8d5a3b"/>
+    <g fill="#22252b">
+      <circle cx="388" cy="196" r="13"/><circle cx="402" cy="184" r="14"/><circle cx="419" cy="184" r="14"/>
+      <circle cx="434" cy="197" r="13"/><circle cx="381" cy="212" r="9"/><circle cx="439" cy="212" r="9"/>
+    </g>
+    <!-- idea bubble -->
+    <rect x="452" y="128" width="78" height="48" rx="14" fill="#144a78"/>
+    <path d="M470 176l-6 16 20-16z" fill="#144a78"/>
+    <circle cx="472" cy="152" r="5" fill="#bcefc6"/><circle cx="491" cy="152" r="5" fill="#bcefc6"/><circle cx="510" cy="152" r="5" fill="#bcefc6"/>
+
+    <!-- desk + items -->
+    <rect x="40" y="336" width="480" height="30" rx="10" fill="#dfe6ee"/>
+    <path d="M226 336l10-62h88l10 62z" fill="#c9d4df"/>
+    <path d="M232 336l10-56h76l10 56z" fill="#e7edf3"/>
+    <circle cx="280" cy="306" r="8" fill="#bcefc6"/>
+    <rect x="100" y="318" width="70" height="18" rx="3" fill="#fff" stroke="#c9d4df" stroke-width="3"/>
+    <rect x="380" y="302" width="26" height="34" rx="6" fill="#144a78"/>
+    <path d="M406 310q12 0 12 10t-12 10" stroke="#144a78" stroke-width="5" fill="none"/>
+  </svg>
+
+  <div class="badge" style="top:200px; left:100px">
+    <span class="ic"><svg viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></svg></span>Fullstack
+  </div>
+  <div class="badge" style="top:300px; left:800px">
+    <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"/></svg></span>AI/ML
+  </div>
+  <div class="badge" style="top:616px; left:110px">
+    <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16.5 9"/></svg></span>QA/BA
+  </div>
+  <div class="badge" style="top:616px; left:660px">
+    <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg></span>Customer Success
+  </div>
+
+  <div class="headline">We’re <span>Hiring</span></div>
+  <div class="intern"><span>Internship</span> Opportunities</div>
+  <div class="cta">View Internships <span class="chev">»</span></div>
+  <div class="url">www.flxwaretech.com/<b>careers</b></div>
+</body>
+</html>

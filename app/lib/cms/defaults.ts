@@ -120,7 +120,7 @@ export const defaultContent: ContentDocs = {
       about: {
         title: 'About',
         description:
-          'Flxware is a remote-first digital innovation studio building web applications, mobile solutions, and AI-powered systems.',
+          'Flxware is a digital innovation studio building web applications, mobile solutions, and AI-powered systems.',
       },
       portfolio: {
         title: 'Portfolio',
@@ -129,7 +129,7 @@ export const defaultContent: ContentDocs = {
       },
       careers: {
         title: 'Careers',
-        description: 'Join Flxware. Explore open engineering, QA, and product roles, including internships.',
+        description: 'Join Flxware. Explore onsite internships in fullstack engineering, AI/ML, QA/BA, and customer success & sales.',
       },
       contact: {
         title: 'Contact',

@@ -14,8 +14,11 @@ interface LogoProps {
 
 /**
  * Flxware wordmark (trimmed from /public/logo.png).
- * The navy original disappears on dark surfaces, so a light-lettered variant
- * (green accent kept) is swapped in for dark mode with CSS only — no hydration flash.
+ * The navy original disappears on dark surfaces, so a dark-mode variant is swapped in
+ * with CSS only — no hydration flash. That variant recolours the navy letterforms to
+ * --theme-foreground (#f8fafc) and deepens the mint accent to #5fd97f, which keeps the
+ * brand hue but stays legible against near-white letters. Both are generated from
+ * logo-light.png with a continuous greenness blend, so the accent keeps its antialiasing.
  * `unoptimized`: the site is a static export, so the image optimizer is unavailable.
  */
 export default function Logo({ variant = 'auto', className = 'h-6 w-auto sm:h-7', priority = false }: LogoProps) {

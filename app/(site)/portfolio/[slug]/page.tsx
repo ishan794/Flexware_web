@@ -4,7 +4,13 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, CheckCircle, AlertTriangle, Lightbulb } from 'lucide-react';
 import Breadcrumbs from '@/app/components/Breadcrumbs';
 import Reveal from '@/app/components/Reveal';
-import { getPublishedProject } from '@/app/lib/server/content';
+import { getPublished, getPublishedProject } from '@/app/lib/server/content';
+
+// Enumerates the slugs so `output: 'export'` can emit a page per project.
+// Harmless in the server build: it just pre-renders the same pages at build time.
+export async function generateStaticParams() {
+  return (await getPublished('projects')).map(({ slug }) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -62,7 +68,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <h2 id="overview" className="mb-4 text-2xl font-bold text-foreground">
             Project Overview
           </h2>
-          <p className="mb-8 leading-relaxed text-muted">{project.overview}</p>
+          {/* Blank lines in the admin textarea become paragraphs, so a long overview stays readable */}
+          <div className="mb-8 space-y-4">
+            {project.overview.split(/\n\s*\n/).map((para, i) => (
+              <p key={i} className="leading-relaxed text-muted">
+                {para}
+              </p>
+            ))}
+          </div>
           <h3 className="mb-4 text-lg font-semibold text-foreground">Key Features</h3>
           <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {project.features.map((f) => (

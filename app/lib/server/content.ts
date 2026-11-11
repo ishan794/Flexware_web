@@ -1,6 +1,6 @@
 import 'server-only';
 import { revalidateTag, unstable_cache } from 'next/cache';
-import { getRepository } from './repository';
+import { getRepository, isDevDataSource } from './repository';
 import type { Stored } from './repository/types';
 import { defaultContent, defaultJobs, defaultProjects, defaultServices } from '../cms/defaults';
 import type {
@@ -55,20 +55,26 @@ export async function writeContentDoc<K extends ContentKey>(key: K, data: Conten
   invalidate(contentTag(key));
 }
 
-/** Cached read for the public site; falls back to defaults if storage is unreachable */
-export function getContent<K extends ContentKey>(key: K): Promise<ContentDocs[K]> {
-  return unstable_cache(
-    async () => {
-      try {
-        return await readContentDoc(key);
-      } catch (err) {
-        console.error(`[cms] Could not load "${key}"; using built-in defaults.`, err);
-        return defaultContent[key];
-      }
-    },
-    ['cms-content', key],
-    { tags: [contentTag(key)] }
-  )();
+/**
+ * Caches reads from PostgreSQL. The in-memory dev store is read directly: it is reseeded
+ * on restart, and a persisted cache entry would keep serving the old seed data.
+ */
+function cached<T>(load: () => Promise<T>, keyParts: string[], tag: string): Promise<T> {
+  if (isDevDataSource()) return load();
+  return unstable_cache(load, keyParts, { tags: [tag] })();
+}
+
+/**
+ * Cached read for the public site; falls back to defaults if storage is unreachable.
+ * The fallback sits outside the cache so a transient outage is never cached.
+ */
+export async function getContent<K extends ContentKey>(key: K): Promise<ContentDocs[K]> {
+  try {
+    return await cached(() => readContentDoc(key), ['cms-content', key], contentTag(key));
+  } catch (err) {
+    console.error(`[cms] Could not load "${key}"; using built-in defaults.`, err);
+    return defaultContent[key];
+  }
 }
 
 // ---------- Collections ----------
@@ -88,19 +94,17 @@ export function listCollection<N extends CollectionName>(name: N): Promise<Store
   return getRepository().collections.list(name);
 }
 
-export function getPublished<N extends CollectionName>(name: N): Promise<CollectionTypes[N][]> {
-  return unstable_cache(
-    async () => {
-      try {
-        return (await getRepository().collections.list(name, { publishedOnly: true })) as CollectionTypes[N][];
-      } catch (err) {
-        console.error(`[cms] Could not load "${name}"; using built-in defaults.`, err);
-        return fallback[name] as CollectionTypes[N][];
-      }
-    },
-    ['cms-collection', name],
-    { tags: [collectionTag(name)] }
-  )();
+export async function getPublished<N extends CollectionName>(name: N): Promise<CollectionTypes[N][]> {
+  try {
+    return await cached(
+      async () => (await getRepository().collections.list(name, { publishedOnly: true })) as CollectionTypes[N][],
+      ['cms-collection', name],
+      collectionTag(name)
+    );
+  } catch (err) {
+    console.error(`[cms] Could not load "${name}"; using built-in defaults.`, err);
+    return fallback[name] as CollectionTypes[N][];
+  }
 }
 
 export async function getPublishedProject(slug: string): Promise<ProjectItem | undefined> {

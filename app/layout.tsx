@@ -9,6 +9,10 @@ import { defaultContent } from './lib/cms/defaults';
 // Brand-level defaults; per-page titles/descriptions come from Admin → SEO.
 const site = defaultContent.settings;
 
+// Canonical origin, so Open Graph/Twitter/canonical URLs resolve absolutely.
+// Set SITE_URL per environment (staging, preview); falls back to the live domain.
+const siteUrl = process.env.SITE_URL?.trim() || 'https://flxwaretech.com';
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -16,6 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s | ${site.name}`,
